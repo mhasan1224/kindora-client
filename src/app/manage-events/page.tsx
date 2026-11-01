@@ -31,6 +31,8 @@ type Event = {
 export default function ManageEventsPage() {
   const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(true);
+  const [deletingEventId, setDeletingEventId] = useState<string | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const userEmail = "admin@example.com";
 
@@ -64,6 +66,41 @@ export default function ManageEventsPage() {
 
     fetchMyEvents();
   }, []);
+
+  const handleDeleteEvent = async () => {
+    if (!deletingEventId) return;
+
+    setIsDeleting(true);
+
+    try {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+
+      const response = await fetch(`${apiUrl}/events/${deletingEventId}`, {
+        method: "DELETE",
+      });
+
+      const result = await response.json();
+
+      if (!response.ok || !result.success) {
+        throw new Error(result.message || "Failed to delete event");
+      }
+
+      setEvents((previousEvents) =>
+        previousEvents.filter((event) => event._id !== deletingEventId),
+      );
+
+      toast.success("Event deleted successfully!");
+      setDeletingEventId(null);
+    } catch (error) {
+      console.error("Delete event error:", error);
+
+      toast.error(
+        error instanceof Error ? error.message : "Something went wrong",
+      );
+    } finally {
+      setIsDeleting(false);
+    }
+  };
 
   if (loading) {
     return (
@@ -265,8 +302,8 @@ export default function ManageEventsPage() {
 
                     <button
                       type="button"
-                      disabled
-                      className="flex items-center justify-center gap-2 rounded-xl bg-red-50 py-2.5 text-sm font-semibold text-red-600 opacity-60"
+                      onClick={() => setDeletingEventId(event._id)}
+                      className="flex items-center justify-center gap-2 rounded-xl bg-red-50 py-2.5 text-sm font-semibold text-red-600 transition hover:bg-red-100"
                     >
                       <Trash2 size={16} />
                       Delete
@@ -286,6 +323,49 @@ export default function ManageEventsPage() {
           </div>
         )}
       </div>
+
+      {deletingEventId && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl"
+          >
+            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-red-50 text-red-600">
+              <Trash2 size={26} />
+            </div>
+
+            <h2 className="mt-5 text-center text-xl font-bold text-gray-900">
+              Delete This Event?
+            </h2>
+
+            <p className="mt-2 text-center text-sm leading-6 text-gray-500">
+              Are you sure you want to delete this event? This action cannot be
+              undone.
+            </p>
+
+            <div className="mt-7 grid grid-cols-2 gap-3">
+              <button
+                type="button"
+                disabled={isDeleting}
+                onClick={() => setDeletingEventId(null)}
+                className="rounded-xl border border-gray-200 py-3 text-sm font-semibold text-gray-700 transition hover:bg-gray-50 disabled:opacity-50"
+              >
+                Cancel
+              </button>
+
+              <button
+                type="button"
+                disabled={isDeleting}
+                onClick={handleDeleteEvent}
+                className="rounded-xl bg-red-600 py-3 text-sm font-semibold text-white transition hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                {isDeleting ? "Deleting..." : "Yes, Delete"}
+              </button>
+            </div>
+          </motion.div>
+        </div>
+      )}
     </main>
   );
 }
