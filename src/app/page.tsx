@@ -1,6 +1,8 @@
 import HeroSection from "@/components/Hero/HeroSection";
 import FeaturesSection from "@/components/Home/FeaturesSection";
+import GallerySection from "@/components/Home/GallerySection";
 import HowItWorksSection from "@/components/Home/HowItWorksSection";
+import RecentEventsSection from "@/components/Home/RecentEventsSection";
 
 
 export default function Home() {
@@ -9,6 +11,8 @@ export default function Home() {
       <HeroSection />
       <FeaturesSection />
       <HowItWorksSection />
+      <RecentEventsSection />
+      <GallerySection />
     </div>
   );
 }

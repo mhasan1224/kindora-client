@@ -6,6 +6,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
 import NavbarWrapper from "@/components/ui/Shared/NavbarWrapper";
+import { Toaster } from "@/components/ui/sonner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -23,6 +24,7 @@ export const metadata: Metadata = {
     "Discover social development events and volunteer opportunities.",
 };
 
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -35,6 +37,7 @@ export default function RootLayout({
       >
         <NavbarWrapper />
         <main className="flex-1">{children}</main>
+        <Toaster position="top-right" richColors closeButton />
       </body>
     </html>
   );
