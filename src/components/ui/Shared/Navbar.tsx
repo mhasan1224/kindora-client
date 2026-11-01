@@ -1,4 +1,3 @@
-
 "use client";
 
 import Image from "next/image";
@@ -88,7 +87,6 @@ export default function Navbar({ user, onLogout }: NavbarProps) {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-slate-200 bg-white/95 backdrop-blur-md">
       <div className="mx-auto flex h-18 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-
         {/* Logo */}
         <Link href="/" className="flex shrink-0 items-center">
           <Image
@@ -110,6 +108,7 @@ export default function Navbar({ user, onLogout }: NavbarProps) {
               <Link
                 key={link.href}
                 href={link.href}
+                aria-current={isActive(link.href) ? "page" : undefined}
                 className={`inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition ${
                   isActive(link.href)
                     ? "bg-emerald-50 text-emerald-700"
@@ -127,7 +126,6 @@ export default function Navbar({ user, onLogout }: NavbarProps) {
         <div className="hidden items-center gap-3 md:flex">
           {user ? (
             <>
-              {/* Profile Dropdown */}
               <DropdownMenu>
                 <TooltipProvider>
                   <Tooltip>
@@ -181,7 +179,7 @@ export default function Navbar({ user, onLogout }: NavbarProps) {
                       <DropdownMenuItem key={link.href}>
                         <Link
                           href={link.href}
-                          className="flex cursor-pointer items-center gap-2"
+                          className="flex w-full cursor-pointer items-center gap-2"
                         >
                           <Icon className="h-4 w-4 text-emerald-600" />
                           {link.title}
@@ -192,7 +190,6 @@ export default function Navbar({ user, onLogout }: NavbarProps) {
                 </DropdownMenuContent>
               </DropdownMenu>
 
-              {/* Logout Button */}
               <Button
                 onClick={onLogout}
                 variant="outline"
@@ -227,8 +224,11 @@ export default function Navbar({ user, onLogout }: NavbarProps) {
               </Button>
             </SheetTrigger>
 
-            <SheetContent side="right" className="w-[300px] sm:w-[350px]">
-              <SheetHeader>
+            <SheetContent
+              side="bottom"
+              className="fixed inset-x-0 top-[72px] bottom-auto h-auto max-h-[calc(100dvh-72px)] w-full max-w-none overflow-y-auto rounded-b-2xl rounded-t-none border-x-0 border-t border-b border-slate-200 p-5"
+            >
+              <SheetHeader className="p-0 text-left">
                 <SheetTitle className="flex items-center">
                   <Image
                     src="/kindora-logo.png"
@@ -240,11 +240,10 @@ export default function Navbar({ user, onLogout }: NavbarProps) {
                 </SheetTitle>
               </SheetHeader>
 
-              <div className="mt-8 flex flex-col gap-3">
-
+              <div className="mt-5 flex flex-col gap-2">
                 {/* User Information */}
                 {user && (
-                  <div className="flex items-center gap-3 rounded-xl bg-emerald-50 p-3">
+                  <div className="mb-2 flex items-center gap-3 rounded-xl bg-emerald-50 p-3">
                     <Avatar className="h-11 w-11">
                       <AvatarImage
                         src={user.image || undefined}
@@ -277,7 +276,8 @@ export default function Navbar({ user, onLogout }: NavbarProps) {
                     <SheetClose key={link.href}>
                       <Link
                         href={link.href}
-                        className={`flex items-center gap-3 rounded-lg px-3 py-3 text-sm font-medium transition ${
+                        aria-current={isActive(link.href) ? "page" : undefined}
+                        className={`flex w-full items-center gap-3 rounded-lg px-3 py-3 text-sm font-medium transition ${
                           isActive(link.href)
                             ? "bg-emerald-50 text-emerald-700"
                             : "text-slate-600 hover:bg-slate-100"
@@ -306,7 +306,8 @@ export default function Navbar({ user, onLogout }: NavbarProps) {
                         <SheetClose key={link.href}>
                           <Link
                             href={link.href}
-                            className={`flex items-center gap-3 rounded-lg px-3 py-3 text-sm font-medium transition ${
+                            aria-current={isActive(link.href) ? "page" : undefined}
+                            className={`flex w-full items-center gap-3 rounded-lg px-3 py-3 text-sm font-medium transition ${
                               isActive(link.href)
                                 ? "bg-emerald-50 text-emerald-700"
                                 : "text-slate-600 hover:bg-slate-100"
@@ -339,7 +340,7 @@ export default function Navbar({ user, onLogout }: NavbarProps) {
                   <SheetClose>
                     <Link
                       href="/login"
-                      className="flex w-full items-center justify-start gap-3 rounded-lg bg-emerald-600 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-700"
+                      className="flex w-full items-center gap-3 rounded-lg bg-emerald-600 px-4 py-3 text-sm font-medium text-white hover:bg-emerald-700"
                     >
                       <LogIn className="h-5 w-5" />
                       Login
