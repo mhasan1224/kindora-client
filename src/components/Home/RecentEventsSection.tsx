@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useEffect, useState } from "react";
@@ -46,22 +45,8 @@ export default function RecentEventsSection() {
           throw new Error(result.message);
         }
 
-        const upcomingEvents = result.data
-          .filter((event) => {
-            const eventDate = new Date(`${event.eventDate}T00:00:00`);
-            const today = new Date();
-            today.setHours(0, 0, 0, 0);
-
-            return eventDate >= today;
-          })
-          .sort(
-            (a, b) =>
-              new Date(a.eventDate).getTime() -
-              new Date(b.eventDate).getTime()
-          )
-          .slice(0, 6);
-
-        setEvents(upcomingEvents);
+        setEvents(result.data);
+        
       } catch (error) {
         console.error("Fetch events error:", error);
         toast.error("Failed to load upcoming events.");
@@ -87,8 +72,8 @@ export default function RecentEventsSection() {
             </h2>
 
             <p className="mt-4 max-w-xl leading-7 text-gray-600">
-              Discover upcoming opportunities and join hands to create
-              positive changes in your community.
+              Discover upcoming opportunities and join hands to create positive
+              changes in your community.
             </p>
           </div>
 
@@ -158,7 +143,7 @@ export default function RecentEventsSection() {
                     <div className="flex items-center gap-2">
                       <CalendarDays size={17} className="text-green-600" />
                       {new Date(
-                        `${event.eventDate}T00:00:00`
+                        `${event.eventDate}T00:00:00`,
                       ).toLocaleDateString("en-US", {
                         day: "numeric",
                         month: "long",

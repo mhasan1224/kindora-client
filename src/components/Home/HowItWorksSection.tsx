@@ -94,13 +94,11 @@ export default function HowItWorksSection() {
                 </p>
 
                 <div className="mt-6 flex items-center gap-2 text-sm font-semibold text-green-700">
-                  Step {index + 1}
-                  <ArrowRight size={16} />
                 </div>
 
                 {index !== steps.length - 1 && (
                   <div className="absolute -right-7 top-1/2 hidden -translate-y-1/2 text-green-400 md:block">
-                    <ArrowRight size={24} />
+                    <ArrowRight size={24} aria-hidden="true" />
                   </div>
                 )}
               </motion.div>
