@@ -8,7 +8,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
 const heroImages = [
-  "/images/hero/tree-plantation.jpg",
+  "/images/hero/tree-plantation.png",
   "/images/hero/community-cleanup.jpg",
   "/images/hero/food-donation.jpg",
   "/images/hero/community-volunteering.jpg",
