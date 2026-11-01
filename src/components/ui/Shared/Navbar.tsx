@@ -107,21 +107,18 @@ export default function Navbar({ user, onLogout }: NavbarProps) {
             const Icon = link.icon;
 
             return (
-              <Button
+              <Link
                 key={link.href}
-                asChild
-                variant="ghost"
-                className={`gap-2 rounded-full px-4 ${
+                href={link.href}
+                className={`inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition ${
                   isActive(link.href)
                     ? "bg-emerald-50 text-emerald-700"
                     : "text-slate-600 hover:bg-emerald-50 hover:text-emerald-700"
                 }`}
               >
-                <Link href={link.href}>
-                  <Icon className="h-4 w-4" />
-                  {link.title}
-                </Link>
-              </Button>
+                <Icon className="h-4 w-4" />
+                {link.title}
+              </Link>
             );
           })}
         </nav>
@@ -134,8 +131,8 @@ export default function Navbar({ user, onLogout }: NavbarProps) {
               <DropdownMenu>
                 <TooltipProvider>
                   <Tooltip>
-                    <TooltipTrigger asChild>
-                      <DropdownMenuTrigger asChild>
+                    <TooltipTrigger>
+                      <DropdownMenuTrigger>
                         <button
                           type="button"
                           aria-label="Open profile menu"
@@ -166,6 +163,7 @@ export default function Navbar({ user, onLogout }: NavbarProps) {
                       <span className="font-semibold text-slate-800">
                         {user.name}
                       </span>
+
                       {user.email && (
                         <span className="text-xs font-normal text-slate-500">
                           {user.email}
@@ -180,7 +178,7 @@ export default function Navbar({ user, onLogout }: NavbarProps) {
                     const Icon = link.icon;
 
                     return (
-                      <DropdownMenuItem key={link.href} asChild>
+                      <DropdownMenuItem key={link.href}>
                         <Link
                           href={link.href}
                           className="flex cursor-pointer items-center gap-2"
@@ -205,22 +203,20 @@ export default function Navbar({ user, onLogout }: NavbarProps) {
               </Button>
             </>
           ) : (
-            <Button
-              asChild
-              className="gap-2 rounded-full bg-emerald-600 px-6 text-white hover:bg-emerald-700"
+            <Link
+              href="/login"
+              className="inline-flex items-center gap-2 rounded-full bg-emerald-600 px-6 py-2 text-sm font-medium text-white transition hover:bg-emerald-700"
             >
-              <Link href="/login">
-                <LogIn className="h-4 w-4" />
-                Login
-              </Link>
-            </Button>
+              <LogIn className="h-4 w-4" />
+              Login
+            </Link>
           )}
         </div>
 
         {/* Mobile Navigation */}
         <div className="md:hidden">
           <Sheet>
-            <SheetTrigger asChild>
+            <SheetTrigger>
               <Button
                 variant="outline"
                 size="icon"
@@ -245,6 +241,7 @@ export default function Navbar({ user, onLogout }: NavbarProps) {
               </SheetHeader>
 
               <div className="mt-8 flex flex-col gap-3">
+
                 {/* User Information */}
                 {user && (
                   <div className="flex items-center gap-3 rounded-xl bg-emerald-50 p-3">
@@ -262,6 +259,7 @@ export default function Navbar({ user, onLogout }: NavbarProps) {
                       <p className="truncate font-semibold text-slate-800">
                         {user.name}
                       </p>
+
                       {user.email && (
                         <p className="truncate text-xs text-slate-500">
                           {user.email}
@@ -276,7 +274,7 @@ export default function Navbar({ user, onLogout }: NavbarProps) {
                   const Icon = link.icon;
 
                   return (
-                    <SheetClose asChild key={link.href}>
+                    <SheetClose key={link.href}>
                       <Link
                         href={link.href}
                         className={`flex items-center gap-3 rounded-lg px-3 py-3 text-sm font-medium transition ${
@@ -305,7 +303,7 @@ export default function Navbar({ user, onLogout }: NavbarProps) {
                       const Icon = link.icon;
 
                       return (
-                        <SheetClose asChild key={link.href}>
+                        <SheetClose key={link.href}>
                           <Link
                             href={link.href}
                             className={`flex items-center gap-3 rounded-lg px-3 py-3 text-sm font-medium transition ${
@@ -327,7 +325,7 @@ export default function Navbar({ user, onLogout }: NavbarProps) {
 
                 {/* Mobile Authentication */}
                 {user ? (
-                  <SheetClose asChild>
+                  <SheetClose>
                     <Button
                       variant="outline"
                       onClick={onLogout}
@@ -338,16 +336,14 @@ export default function Navbar({ user, onLogout }: NavbarProps) {
                     </Button>
                   </SheetClose>
                 ) : (
-                  <SheetClose asChild>
-                    <Button
-                      asChild
-                      className="w-full justify-start gap-3 rounded-lg bg-emerald-600 text-white hover:bg-emerald-700"
+                  <SheetClose>
+                    <Link
+                      href="/login"
+                      className="flex w-full items-center justify-start gap-3 rounded-lg bg-emerald-600 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-700"
                     >
-                      <Link href="/login">
-                        <LogIn className="h-5 w-5" />
-                        Login
-                      </Link>
-                    </Button>
+                      <LogIn className="h-5 w-5" />
+                      Login
+                    </Link>
                   </SheetClose>
                 )}
               </div>

@@ -7,6 +7,7 @@ import "./globals.css";
 
 import NavbarWrapper from "@/components/ui/Shared/NavbarWrapper";
 import { Toaster } from "@/components/ui/sonner";
+import Footer from "@/components/ui/Shared/Footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -37,6 +38,7 @@ export default function RootLayout({
       >
         <NavbarWrapper />
         <main className="flex-1">{children}</main>
+        <Footer />
         <Toaster position="top-right" richColors closeButton />
       </body>
     </html>
