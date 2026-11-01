@@ -1,10 +1,10 @@
-import { Button } from "@/components/ui/button";
-import Image from "next/image";
+import HeroSection from "@/components/Hero/HeroSection";
+
 
 export default function Home() {
   return (
     <div>
-      <Button variant={"outline"}>submit</Button>
+      <HeroSection />
     </div>
   );
 }
