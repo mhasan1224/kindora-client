@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, type FormEvent } from "react";
@@ -31,14 +30,9 @@ const eventSchema = z.object({
     .min(20, "Description must be at least 20 characters.")
     .max(2000, "Description cannot exceed 2000 characters."),
 
-  eventType: z
-    .string()
-    .min(1, "Please select an event category."),
+  eventType: z.string().min(1, "Please select an event category."),
 
-  thumbnailUrl: z
-    .string()
-    .trim()
-    .url("Please enter a valid image URL."),
+  thumbnailUrl: z.string().trim().url("Please enter a valid image URL."),
 
   location: z
     .string()
@@ -50,10 +44,12 @@ const eventSchema = z.object({
     .string()
     .min(1, "Please select an event date.")
     .refine(
-      (date) => date > new Date().toLocaleDateString("en-CA", {
-        timeZone: "Asia/Dhaka",
-      }),
-      "Event date must be in the future."
+      (date) =>
+        date >
+        new Date().toLocaleDateString("en-CA", {
+          timeZone: "Asia/Dhaka",
+        }),
+      "Event date must be in the future.",
     ),
 });
 
@@ -76,10 +72,7 @@ export default function CreateEventPage() {
   const [errors, setErrors] = useState<FormErrors>({});
   const [submitting, setSubmitting] = useState(false);
 
-  const handleChange = (
-    field: keyof EventFormData,
-    value: string
-  ) => {
+  const handleChange = (field: keyof EventFormData, value: string) => {
     setFormData((previous) => ({
       ...previous,
       [field]: value,
@@ -116,8 +109,42 @@ export default function CreateEventPage() {
     setSubmitting(true);
 
     try {
-      // Backend API integration will be added in the next step.
-      toast.success("Enevt Create successful!");
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+
+      const eventData = {
+        ...validation.data,
+        creatorEmail: "admin@example.com",
+      };
+
+      console.log("Sending event data:", eventData);
+
+      const response = await fetch(`${apiUrl}/events`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(eventData),
+      });
+
+      const result = await response.json();
+
+      console.log("Backend response:", result);
+
+      if (!response.ok || !result.success) {
+        throw new Error(result.message || "Failed to create event");
+      }
+
+      toast.success("Event created successfully!");
+
+      router.push("/upcoming-events");
+    } catch (error) {
+      console.error("Create event error:", error);
+
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : "Something went wrong. Please try again.",
+      );
     } finally {
       setSubmitting(false);
     }
@@ -130,7 +157,6 @@ export default function CreateEventPage() {
   return (
     <main className="min-h-screen bg-green-50/30 px-4 py-12 sm:px-6 sm:py-16">
       <div className="mx-auto max-w-4xl">
-
         {/* Back Navigation */}
         <Link
           href="/"
@@ -153,14 +179,13 @@ export default function CreateEventPage() {
           </h1>
 
           <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-gray-600">
-            Create an event, bring people together, and inspire
-            positive change in your community.
+            Create an event, bring people together, and inspire positive change
+            in your community.
           </p>
         </div>
 
         {/* Event Form */}
         <div className="rounded-2xl border border-green-100 bg-white p-6 shadow-sm sm:p-10">
-
           <div className="mb-8 border-b border-gray-100 pb-5">
             <h2 className="text-xl font-bold text-gray-900">
               Event Information
@@ -172,7 +197,6 @@ export default function CreateEventPage() {
           </div>
 
           <form onSubmit={handleSubmit} noValidate className="space-y-6">
-
             {/* Event Title */}
             <div>
               <label
@@ -192,9 +216,7 @@ export default function CreateEventPage() {
               />
 
               {errors.title && (
-                <p className="mt-2 text-sm text-red-500">
-                  {errors.title}
-                </p>
+                <p className="mt-2 text-sm text-red-500">{errors.title}</p>
               )}
             </div>
 
@@ -212,9 +234,7 @@ export default function CreateEventPage() {
                 id="description"
                 rows={5}
                 value={formData.description}
-                onChange={(e) =>
-                  handleChange("description", e.target.value)
-                }
+                onChange={(e) => handleChange("description", e.target.value)}
                 placeholder="Describe your event and its purpose..."
                 className="w-full resize-y rounded-lg border border-gray-200 px-4 py-3 text-sm outline-none transition focus:border-green-500 focus:ring-2 focus:ring-green-100"
               />
@@ -242,9 +262,7 @@ export default function CreateEventPage() {
               <select
                 id="eventType"
                 value={formData.eventType}
-                onChange={(e) =>
-                  handleChange("eventType", e.target.value)
-                }
+                onChange={(e) => handleChange("eventType", e.target.value)}
                 className="w-full rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm outline-none transition focus:border-green-500 focus:ring-2 focus:ring-green-100"
               >
                 <option value="">Select an event category</option>
@@ -257,9 +275,7 @@ export default function CreateEventPage() {
               </select>
 
               {errors.eventType && (
-                <p className="mt-2 text-sm text-red-500">
-                  {errors.eventType}
-                </p>
+                <p className="mt-2 text-sm text-red-500">{errors.eventType}</p>
               )}
             </div>
 
@@ -277,9 +293,7 @@ export default function CreateEventPage() {
                 id="thumbnailUrl"
                 type="url"
                 value={formData.thumbnailUrl}
-                onChange={(e) =>
-                  handleChange("thumbnailUrl", e.target.value)
-                }
+                onChange={(e) => handleChange("thumbnailUrl", e.target.value)}
                 placeholder="https://example.com/image.jpg"
                 className="w-full rounded-lg border border-gray-200 px-4 py-3 text-sm outline-none transition focus:border-green-500 focus:ring-2 focus:ring-green-100"
               />
@@ -293,7 +307,6 @@ export default function CreateEventPage() {
 
             {/* Location and Date */}
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-
               <div>
                 <label
                   htmlFor="location"
@@ -307,17 +320,13 @@ export default function CreateEventPage() {
                   id="location"
                   type="text"
                   value={formData.location}
-                  onChange={(e) =>
-                    handleChange("location", e.target.value)
-                  }
+                  onChange={(e) => handleChange("location", e.target.value)}
                   placeholder="Enter event location"
                   className="w-full rounded-lg border border-gray-200 px-4 py-3 text-sm outline-none transition focus:border-green-500 focus:ring-2 focus:ring-green-100"
                 />
 
                 {errors.location && (
-                  <p className="mt-2 text-sm text-red-500">
-                    {errors.location}
-                  </p>
+                  <p className="mt-2 text-sm text-red-500">{errors.location}</p>
                 )}
               </div>
 
@@ -335,9 +344,7 @@ export default function CreateEventPage() {
                   type="date"
                   min={today}
                   value={formData.eventDate}
-                  onChange={(e) =>
-                    handleChange("eventDate", e.target.value)
-                  }
+                  onChange={(e) => handleChange("eventDate", e.target.value)}
                   className="w-full rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm outline-none transition focus:border-green-500 focus:ring-2 focus:ring-green-100"
                 />
 
