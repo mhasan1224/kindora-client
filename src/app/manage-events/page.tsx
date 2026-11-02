@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useEffect, useState } from "react";
@@ -34,17 +35,19 @@ export default function ManageEventsPage() {
   const [deletingEventId, setDeletingEventId] = useState<string | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
 
-  const userEmail = "admin@example.com";
-
   useEffect(() => {
     const fetchMyEvents = async () => {
       try {
         const apiUrl =
           process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 
-        const response = await fetch(
-          `${apiUrl}/my-events?email=${encodeURIComponent(userEmail)}`,
-        );
+        const response = await fetch(`${apiUrl}/my-events`, {
+          method: "GET",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
 
         const result = await response.json();
 
@@ -73,10 +76,12 @@ export default function ManageEventsPage() {
     setIsDeleting(true);
 
     try {
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+      const apiUrl =
+        process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 
       const response = await fetch(`${apiUrl}/events/${deletingEventId}`, {
         method: "DELETE",
+        credentials: "include",
       });
 
       const result = await response.json();
@@ -324,6 +329,7 @@ export default function ManageEventsPage() {
         )}
       </div>
 
+      {/* Delete Confirmation Modal */}
       {deletingEventId && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
           <motion.div

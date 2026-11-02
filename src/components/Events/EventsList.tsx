@@ -25,18 +25,29 @@ type EventsResponse = {
   data: Event[];
 };
 
-export default function EventsList() {
+type EventsListProps = {
+  endpoint?: string;
+};
+
+export default function EventsList({
+  endpoint = "/upcoming-events",
+}: EventsListProps) {
   const [events, setEvents] = useState<Event[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState("All Categories");
+  const [selectedCategory, setSelectedCategory] =
+    useState("All Categories");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchEvents() {
+      setLoading(true);
+
       try {
         const apiUrl =
           process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 
-        const response = await fetch(`${apiUrl}/upcoming-events`);
+        const response = await fetch(`${apiUrl}${endpoint}`, {
+          credentials: "include",
+        });
 
         if (!response.ok) {
           throw new Error("Failed to fetch events");
@@ -50,15 +61,16 @@ export default function EventsList() {
 
         setEvents(result.data);
       } catch (error) {
-        console.error("Fetch upcoming events error:", error);
-        toast.error("Failed to load upcoming events.");
+        console.error("Fetch events error:", error);
+        toast.error("Failed to load events.");
+        setEvents([]);
       } finally {
         setLoading(false);
       }
     }
 
     fetchEvents();
-  }, []);
+  }, [endpoint]);
 
   const filteredEvents =
     selectedCategory === "All Categories"
@@ -92,12 +104,16 @@ export default function EventsList() {
             />
 
             <h3 className="text-xl font-semibold text-gray-900">
-              No Events Found
+              {endpoint === "/my-joined-events"
+                ? "No Joined Events"
+                : "No Events Found"}
             </h3>
 
             <p className="mt-2 text-gray-600">
               {events.length === 0
-                ? "There are no upcoming events at the moment."
+                ? endpoint === "/my-joined-events"
+                  ? "You have not joined any events yet. Explore upcoming events and join one!"
+                  : "There are no upcoming events at the moment."
                 : "No events found in this category."}
             </p>
           </div>

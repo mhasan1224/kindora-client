@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, type FormEvent } from "react";
@@ -16,7 +17,6 @@ import Link from "next/link";
 
 import { eventCategories } from "@/lib/event-categories";
 
-// Form Validation Schema
 const eventSchema = z.object({
   title: z
     .string()
@@ -109,17 +109,16 @@ export default function CreateEventPage() {
     setSubmitting(true);
 
     try {
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+      const apiUrl =
+        process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 
-      const eventData = {
-        ...validation.data,
-        creatorEmail: "admin@example.com",
-      };
+      const eventData = validation.data;
 
       console.log("Sending event data:", eventData);
 
       const response = await fetch(`${apiUrl}/events`, {
         method: "POST",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },
@@ -157,7 +156,6 @@ export default function CreateEventPage() {
   return (
     <main className="min-h-screen bg-green-50/30 px-4 py-12 sm:px-6 sm:py-16">
       <div className="mx-auto max-w-4xl">
-        {/* Back Navigation */}
         <Link
           href="/"
           className="mb-6 inline-flex items-center gap-2 text-sm font-medium text-green-700 transition-colors hover:text-green-900"
@@ -166,7 +164,6 @@ export default function CreateEventPage() {
           Back to Home
         </Link>
 
-        {/* Page Heading */}
         <div className="mb-10 text-center">
           <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-green-100 px-4 py-2 text-sm font-semibold text-green-700">
             <PlusCircle size={17} />
@@ -184,7 +181,6 @@ export default function CreateEventPage() {
           </p>
         </div>
 
-        {/* Event Form */}
         <div className="rounded-2xl border border-green-100 bg-white p-6 shadow-sm sm:p-10">
           <div className="mb-8 border-b border-gray-100 pb-5">
             <h2 className="text-xl font-bold text-gray-900">
@@ -197,7 +193,6 @@ export default function CreateEventPage() {
           </div>
 
           <form onSubmit={handleSubmit} noValidate className="space-y-6">
-            {/* Event Title */}
             <div>
               <label
                 htmlFor="title"
@@ -220,7 +215,6 @@ export default function CreateEventPage() {
               )}
             </div>
 
-            {/* Event Description */}
             <div>
               <label
                 htmlFor="description"
@@ -250,7 +244,6 @@ export default function CreateEventPage() {
               )}
             </div>
 
-            {/* Event Category */}
             <div>
               <label
                 htmlFor="eventType"
@@ -279,7 +272,6 @@ export default function CreateEventPage() {
               )}
             </div>
 
-            {/* Thumbnail URL */}
             <div>
               <label
                 htmlFor="thumbnailUrl"
@@ -305,7 +297,6 @@ export default function CreateEventPage() {
               )}
             </div>
 
-            {/* Location and Date */}
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
               <div>
                 <label
@@ -356,7 +347,6 @@ export default function CreateEventPage() {
               </div>
             </div>
 
-            {/* Submit Button */}
             <div className="border-t border-gray-100 pt-6">
               <button
                 type="submit"

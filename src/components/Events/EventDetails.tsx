@@ -4,6 +4,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import {
   CalendarDays,
   MapPin,
@@ -12,6 +13,7 @@ import {
   Globe,
 } from "lucide-react";
 import { toast } from "sonner";
+import { authClient } from "@/lib/auth-client";
 
 type Event = {
   _id: string;
@@ -30,21 +32,35 @@ type EventResponse = {
   data: Event;
 };
 
+type JoinedEventsResponse = {
+  success: boolean;
+  message: string;
+  data: Event[];
+};
+
 type EventDetailsProps = {
   eventId: string;
 };
 
 export default function EventDetails({ eventId }: EventDetailsProps) {
+  const router = useRouter();
+
+  const { data: session, isPending: sessionPending } =
+    authClient.useSession();
+
   const [event, setEvent] = useState<Event | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const [joining, setJoining] = useState(false);
+  const [isJoined, setIsJoined] = useState(false);
 
+  const apiUrl =
+    process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+
+  // Fetch Event Details
   useEffect(() => {
     async function fetchEvent() {
       try {
-        const apiUrl =
-          process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
-
         const response = await fetch(`${apiUrl}/events/${eventId}`);
 
         if (!response.ok) {
@@ -68,7 +84,97 @@ export default function EventDetails({ eventId }: EventDetailsProps) {
     }
 
     fetchEvent();
-  }, [eventId]);
+  }, [eventId, apiUrl]);
+
+  // Check Whether User Has Already Joined
+  useEffect(() => {
+    if (!session?.user || !event) {
+      setIsJoined(false);
+      return;
+    }
+
+    let isActive = true;
+
+    async function checkJoinedStatus() {
+      try {
+        const response = await fetch(`${apiUrl}/my-joined-events`, {
+          credentials: "include",
+        });
+
+        if (!response.ok) {
+          return;
+        }
+
+        const result: JoinedEventsResponse = await response.json();
+
+        if (result.success && isActive) {
+          const joined = result.data.some(
+            (joinedEvent) => joinedEvent._id === event._id
+          );
+
+          setIsJoined(joined);
+        }
+      } catch (error) {
+        console.error("Check joined status error:", error);
+      }
+    }
+
+    checkJoinedStatus();
+
+    return () => {
+      isActive = false;
+    };
+  }, [session, event, apiUrl]);
+
+  // Join Event
+  const handleJoinEvent = async () => {
+    if (!session?.user) {
+      toast.error("Please login to join this event.");
+      router.push("/login");
+      return;
+    }
+
+    if (!event) return;
+
+    if (event.creatorEmail === session.user.email.toLowerCase()) {
+      toast.error("You cannot join your own event.");
+      return;
+    }
+
+    if (isJoined) {
+      toast.info("You have already joined this event.");
+      return;
+    }
+
+    try {
+      setJoining(true);
+
+      const response = await fetch(
+        `${apiUrl}/events/${event._id}/join`,
+        {
+          method: "POST",
+          credentials: "include",
+        }
+      );
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.message || "Failed to join event");
+      }
+
+      setIsJoined(true);
+      toast.success("You have successfully joined the event!");
+    } catch (error) {
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : "Something went wrong"
+      );
+    } finally {
+      setJoining(false);
+    }
+  };
 
   // Loading State
   if (loading) {
@@ -122,6 +228,15 @@ export default function EventDetails({ eventId }: EventDetailsProps) {
     year: "numeric",
   });
 
+  const isOwnEvent =
+    event.creatorEmail === session?.user?.email?.toLowerCase();
+
+  const buttonDisabled =
+    joining ||
+    sessionPending ||
+    isJoined ||
+    isOwnEvent;
+
   return (
     <main className="min-h-screen bg-gray-50 px-4 py-10 sm:px-6 sm:py-14">
       <div className="mx-auto max-w-7xl">
@@ -156,21 +271,34 @@ export default function EventDetails({ eventId }: EventDetailsProps) {
             {/* Registration Card */}
             <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
               <p className="text-center text-sm font-medium text-gray-800">
-                To join the event, please register below.
+                Join this event and become a participant.
               </p>
 
               <button
                 type="button"
-                disabled
-                title="Authentication will be implemented next."
-                className="mt-4 flex w-full cursor-not-allowed items-center justify-center gap-2 rounded-lg bg-green-600 px-5 py-3 text-sm font-semibold text-white opacity-70"
+                onClick={handleJoinEvent}
+                disabled={buttonDisabled}
+                className="mt-4 flex w-full items-center justify-center gap-2 rounded-lg bg-green-600 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-green-700 disabled:cursor-not-allowed disabled:opacity-60"
               >
                 <Users size={18} />
-                Register Now
+
+                {sessionPending
+                  ? "Checking..."
+                  : joining
+                    ? "Joining..."
+                    : isJoined
+                      ? "Already Joined"
+                      : isOwnEvent
+                        ? "Your Own Event"
+                        : "Join Event"}
               </button>
 
               <p className="mt-2 text-center text-xs text-gray-500">
-                Registration will be available soon.
+                {isJoined
+                  ? "You are already a participant in this event."
+                  : isOwnEvent
+                    ? "You cannot join your own event."
+                    : "Be part of this community initiative."}
               </p>
             </div>
           </aside>

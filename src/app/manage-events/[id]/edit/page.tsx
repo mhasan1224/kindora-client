@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useEffect, useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent, type ChangeEvent } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { toast } from "sonner";
@@ -46,15 +46,17 @@ export default function EditEventPage() {
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
 
-  const userEmail = "admin@example.com";
-
   useEffect(() => {
     const fetchEvent = async () => {
       try {
         const apiUrl =
           process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 
-        const response = await fetch(`${apiUrl}/events/${eventId}`);
+        const response = await fetch(`${apiUrl}/events/${eventId}`, {
+          method: "GET",
+          credentials: "include",
+        });
+
         const result = await response.json();
 
         if (!response.ok || !result.success) {
@@ -63,8 +65,8 @@ export default function EditEventPage() {
 
         const event = result.data;
 
-        if (event.creatorEmail !== userEmail) {
-          throw new Error("You cannot edit this event");
+        if (!event) {
+          throw new Error("Event not found");
         }
 
         setFormData({
@@ -96,7 +98,7 @@ export default function EditEventPage() {
   }, [eventId, router]);
 
   const handleChange = (
-    e: React.ChangeEvent<
+    e: ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
     >
   ) => {
@@ -137,17 +139,19 @@ export default function EditEventPage() {
       return;
     }
 
-    if (formData.eventDate <= new Date().toLocaleDateString("en-CA", {
+    const today = new Date().toLocaleDateString("en-CA", {
       timeZone: "Asia/Dhaka",
-    })) {
+    });
+
+    if (formData.eventDate <= today) {
       toast.error("Please select a future event date");
       return;
     }
 
     try {
-      new URL(formData.thumbnailUrl);
+      const imageUrl = new URL(formData.thumbnailUrl);
 
-      if (!formData.thumbnailUrl.startsWith("https://")) {
+      if (imageUrl.protocol !== "https:") {
         throw new Error("Image URL must use HTTPS");
       }
     } catch {
@@ -163,13 +167,11 @@ export default function EditEventPage() {
 
       const response = await fetch(`${apiUrl}/events/${eventId}`, {
         method: "PUT",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          ...formData,
-          creatorEmail: userEmail,
-        }),
+        body: JSON.stringify(formData),
       });
 
       const result = await response.json();
@@ -179,6 +181,7 @@ export default function EditEventPage() {
       }
 
       toast.success("Event updated successfully!");
+
       router.push("/manage-events");
       router.refresh();
     } catch (error) {
@@ -197,7 +200,9 @@ export default function EditEventPage() {
   if (loading) {
     return (
       <div className="flex min-h-[60vh] items-center justify-center">
-        <p className="animate-pulse text-gray-500">Loading event details...</p>
+        <p className="animate-pulse text-gray-500">
+          Loading event details...
+        </p>
       </div>
     );
   }
@@ -230,7 +235,10 @@ export default function EditEventPage() {
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
-              <label htmlFor="title" className="mb-2 block text-sm font-semibold text-gray-700">
+              <label
+                htmlFor="title"
+                className="mb-2 block text-sm font-semibold text-gray-700"
+              >
                 Event Title
               </label>
               <input
@@ -246,7 +254,10 @@ export default function EditEventPage() {
             </div>
 
             <div>
-              <label htmlFor="description" className="mb-2 block text-sm font-semibold text-gray-700">
+              <label
+                htmlFor="description"
+                className="mb-2 block text-sm font-semibold text-gray-700"
+              >
                 Description
               </label>
               <textarea
@@ -263,7 +274,10 @@ export default function EditEventPage() {
             </div>
 
             <div>
-              <label htmlFor="eventType" className="mb-2 block text-sm font-semibold text-gray-700">
+              <label
+                htmlFor="eventType"
+                className="mb-2 block text-sm font-semibold text-gray-700"
+              >
                 Event Category
               </label>
               <select
@@ -284,7 +298,10 @@ export default function EditEventPage() {
             </div>
 
             <div>
-              <label htmlFor="thumbnailUrl" className="mb-2 block text-sm font-semibold text-gray-700">
+              <label
+                htmlFor="thumbnailUrl"
+                className="mb-2 block text-sm font-semibold text-gray-700"
+              >
                 Thumbnail Image URL
               </label>
               <input
@@ -299,7 +316,10 @@ export default function EditEventPage() {
             </div>
 
             <div>
-              <label htmlFor="location" className="mb-2 block text-sm font-semibold text-gray-700">
+              <label
+                htmlFor="location"
+                className="mb-2 block text-sm font-semibold text-gray-700"
+              >
                 Location
               </label>
               <input
@@ -315,7 +335,10 @@ export default function EditEventPage() {
             </div>
 
             <div>
-              <label htmlFor="eventDate" className="mb-2 block text-sm font-semibold text-gray-700">
+              <label
+                htmlFor="eventDate"
+                className="mb-2 block text-sm font-semibold text-gray-700"
+              >
                 Event Date
               </label>
               <input

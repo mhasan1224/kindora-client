@@ -1,10 +1,13 @@
+
 "use client";
 
 import Navbar from "@/components/ui/Shared/Navbar";
 import { authClient } from "@/lib/auth-client";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 export default function NavbarWrapper() {
+  const router = useRouter();
   const { data: session, isPending } = authClient.useSession();
 
   const handleLogout = async () => {
@@ -16,6 +19,8 @@ export default function NavbarWrapper() {
     }
 
     toast.success("Logged out successfully");
+    router.replace("/");
+    router.refresh();
   };
 
   if (isPending) {
