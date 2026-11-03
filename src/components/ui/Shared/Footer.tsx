@@ -49,7 +49,7 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-emerald-200 bg-[#cffbf4] px-6 pt-14 text-slate-700 sm:px-8">
+    <footer className="border-t border-border bg-footer px-6 pt-14 text-footer-foreground sm:px-8">
       <div className="mx-auto grid max-w-7xl gap-10 pb-12 sm:grid-cols-2 lg:grid-cols-4">
         {/* Brand Information */}
         <motion.div
@@ -69,21 +69,21 @@ export default function Footer() {
             />
           </Link>
 
-          <p className="max-w-xs text-sm leading-7 text-slate-600">
+          <p className="max-w-xs text-sm leading-7 text-footer-foreground/80">
             Bringing people together through kindness, volunteering, and
             meaningful community activities. Every small act can make a big
             difference.
           </p>
 
-          <div className="inline-flex items-center gap-2 rounded-full bg-white/70 px-4 py-2 text-sm font-medium text-emerald-700">
-            <Heart className="h-4 w-4 fill-emerald-600 text-emerald-600" />
+          <div className="inline-flex items-center gap-2 rounded-full bg-card/80 px-4 py-2 text-sm font-medium text-primary">
+            <Heart className="h-4 w-4 fill-primary text-primary" />
             Small Acts, Big Impact
           </div>
         </motion.div>
 
         {/* Quick Links */}
         <div>
-          <h3 className="mb-5 text-base font-bold text-slate-900">
+          <h3 className="mb-5 text-base font-bold text-foreground">
             Quick Links
           </h3>
 
@@ -92,7 +92,7 @@ export default function Footer() {
               <li key={link.href}>
                 <Link
                   href={link.href}
-                  className="group inline-flex items-center gap-2 text-sm text-slate-600 transition-colors hover:text-emerald-700"
+                  className="group inline-flex items-center gap-2 text-sm text-footer-foreground/80 transition-colors hover:text-footer-foreground"
                 >
                   <span>{link.label}</span>
                   <ArrowUpRight className="h-3.5 w-3.5 opacity-0 transition-all group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:opacity-100" />
@@ -104,7 +104,7 @@ export default function Footer() {
 
         {/* My Activities */}
         <div>
-          <h3 className="mb-5 text-base font-bold text-slate-900">
+          <h3 className="mb-5 text-base font-bold text-foreground">
             My Activities
           </h3>
 
@@ -116,9 +116,9 @@ export default function Footer() {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="group inline-flex items-center gap-3 text-sm text-slate-600 transition-colors hover:text-emerald-700"
+                    className="group inline-flex items-center gap-3 text-sm text-footer-foreground/80 transition-colors hover:text-footer-foreground"
                   >
-                    <Icon className="h-4 w-4 text-emerald-600 transition-transform group-hover:scale-110" />
+                    <Icon className="h-4 w-4 text-primary transition-transform group-hover:scale-110" />
                     {link.label}
                   </Link>
                 </li>
@@ -129,7 +129,7 @@ export default function Footer() {
 
         {/* Event Categories */}
         <div>
-          <h3 className="mb-5 text-base font-bold text-slate-900">
+          <h3 className="mb-5 text-base font-bold text-foreground">
             Event Categories
           </h3>
 
@@ -138,9 +138,9 @@ export default function Footer() {
               <li key={category.value}>
                 <Link
                   href={`/upcoming-events?category=${encodeURIComponent(category.value)}`}
-                  className="group flex items-center gap-2 text-sm text-slate-600 transition-colors hover:text-emerald-700"
+                  className="group flex items-center gap-2 text-sm text-footer-foreground/80 transition-colors hover:text-footer-foreground"
                 >
-                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-600 transition-transform group-hover:scale-150" />
+                  <span className="h-1.5 w-1.5 rounded-full bg-primary transition-transform group-hover:scale-150" />
                   {category.label}
                 </Link>
               </li>
@@ -150,15 +150,15 @@ export default function Footer() {
       </div>
 
       {/* Contact and Location */}
-      <div className="mx-auto flex max-w-7xl flex-col gap-4 border-t border-emerald-200 py-6 sm:flex-row sm:items-center sm:justify-between">
-        <div className="flex items-center gap-2 text-sm text-slate-600">
-          <MapPin className="h-4 w-4 text-emerald-700" />
+      <div className="mx-auto flex max-w-7xl flex-col gap-4 border-t border-border py-6 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex items-center gap-2 text-sm text-footer-foreground/80">
+          <MapPin className="h-4 w-4 text-primary" />
           Bangladesh
         </div>
 
         <Link
           href="/upcoming-events"
-          className="inline-flex items-center gap-2 text-sm font-medium text-emerald-700 transition-colors hover:text-emerald-900"
+          className="inline-flex items-center gap-2 text-sm font-medium text-footer-foreground transition-opacity hover:opacity-70"
         >
           Explore Events
           <CalendarDays className="h-4 w-4" />
@@ -166,19 +166,19 @@ export default function Footer() {
       </div>
 
       {/* Copyright */}
-      <div className="border-t border-emerald-200 py-6 text-center">
-        <p className="text-sm text-slate-600">
+      <div className="border-t border-border py-6 text-center">
+        <p className="text-sm text-footer-foreground/80">
           © {currentYear}{" "}
           <Link
             href="/"
-            className="font-semibold text-emerald-800 hover:text-emerald-600"
+            className="font-semibold text-footer-foreground transition-opacity hover:opacity-70"
           >
             Kindora
           </Link>
           . All rights reserved.
         </p>
 
-        <p className="mt-2 text-xs text-slate-500">
+        <p className="mt-2 text-xs text-footer-foreground/60">
           Made with care for our community.
         </p>
       </div>

@@ -25,7 +25,7 @@ export default function NavbarWrapper() {
 
   if (isPending) {
     return (
-      <header className="sticky top-0 z-50 h-18 border-b border-slate-200 bg-white/95" />
+      <header className="sticky top-0 z-50 h-18 border-b border-border bg-navbar" />
     );
   }
 

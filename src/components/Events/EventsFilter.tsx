@@ -26,8 +26,8 @@ export default function EventsFilter({
             onClick={() => onCategoryChange(category)}
             className={`rounded-full border px-5 py-2.5 text-sm font-medium transition-all duration-200 ${
               isActive
-                ? "border-green-600 bg-green-600 text-white shadow-md"
-                : "border-green-200 bg-white text-gray-700 hover:border-green-500 hover:bg-green-50 hover:text-green-700"
+                ? "border-primary bg-primary text-primary-foreground shadow-md"
+                : "border-border bg-card text-foreground hover:border-primary hover:bg-secondary hover:text-primary"
             }`}
           >
             {category}

@@ -90,11 +90,11 @@ export default function RegisterPage() {
   };
 
   return (
-    <main className="relative flex min-h-[calc(100vh-72px)] items-center justify-center overflow-hidden bg-gradient-to-br from-emerald-50 via-white to-green-50 px-4 py-5">
-      <div className="pointer-events-none absolute -left-24 -top-24 h-72 w-72 rounded-full bg-emerald-100/60 blur-3xl" />
-      <div className="pointer-events-none absolute -bottom-24 -right-24 h-72 w-72 rounded-full bg-green-100/60 blur-3xl" />
+    <main className="relative flex min-h-[calc(100vh-72px)] items-center justify-center overflow-hidden bg-gradient-to-br from-secondary via-background to-background px-4 py-5">
+      <div className="pointer-events-none absolute -left-24 -top-24 h-72 w-72 rounded-full bg-primary/10 blur-3xl" />
+      <div className="pointer-events-none absolute -bottom-24 -right-24 h-72 w-72 rounded-full bg-primary/10 blur-3xl" />
 
-      <Card className="relative w-full max-w-lg overflow-hidden rounded-2xl border border-emerald-100 bg-white shadow-xl shadow-emerald-900/5">
+      <Card className="relative w-full max-w-lg overflow-hidden rounded-2xl border border-border bg-card shadow-xl shadow-foreground/5">
         <CardHeader className="space-y-2 px-6 pt-5 text-center sm:px-8">
           <div className="mx-auto flex h-14 w-14 items-center justify-center">
             <Image
@@ -109,11 +109,11 @@ export default function RegisterPage() {
 
           <div className="space-y-1">
 
-            <CardTitle className="text-2xl font-bold tracking-tight text-slate-900">
+            <CardTitle className="text-2xl font-bold tracking-tight text-foreground">
               Create Your Account
             </CardTitle>
 
-            <CardDescription className="text-sm leading-relaxed text-slate-500">
+            <CardDescription className="text-sm leading-relaxed text-muted-foreground">
               Join our community and make a positive difference together.
             </CardDescription>
           </div>
@@ -125,24 +125,24 @@ export default function RegisterPage() {
             <div className="space-y-1.5">
               <Label
                 htmlFor="name"
-                className="text-sm font-semibold text-slate-700"
+                className="text-sm font-semibold text-foreground"
               >
                 Full Name
               </Label>
 
               <div className="relative">
-                <UserRound className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+                <UserRound className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
 
                 <Input
                   id="name"
                   placeholder="Enter your full name"
-                  className="h-10 rounded-lg border-slate-200 pl-10 focus-visible:ring-emerald-500"
+                  className="h-10 rounded-lg border-border bg-input-background pl-10 text-foreground focus-visible:border-ring focus-visible:ring-ring/50"
                   {...form.register("name")}
                 />
               </div>
 
               {form.formState.errors.name && (
-                <p className="text-xs text-red-500">
+                <p className="text-xs text-destructive">
                   {form.formState.errors.name.message}
                 </p>
               )}
@@ -152,25 +152,25 @@ export default function RegisterPage() {
             <div className="space-y-1.5">
               <Label
                 htmlFor="email"
-                className="text-sm font-semibold text-slate-700"
+                className="text-sm font-semibold text-foreground"
               >
                 Email Address
               </Label>
 
               <div className="relative">
-                <Mail className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+                <Mail className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
 
                 <Input
                   id="email"
                   type="email"
                   placeholder="you@example.com"
-                  className="h-10 rounded-lg border-slate-200 pl-10 focus-visible:ring-emerald-500"
+                  className="h-10 rounded-lg border-border bg-input-background pl-10 text-foreground focus-visible:border-ring focus-visible:ring-ring/50"
                   {...form.register("email")}
                 />
               </div>
 
               {form.formState.errors.email && (
-                <p className="text-xs text-red-500">
+                <p className="text-xs text-destructive">
                   {form.formState.errors.email.message}
                 </p>
               )}
@@ -180,25 +180,25 @@ export default function RegisterPage() {
             <div className="space-y-1.5">
               <Label
                 htmlFor="image"
-                className="text-sm font-semibold text-slate-700"
+                className="text-sm font-semibold text-foreground"
               >
                 Profile Photo URL
               </Label>
 
               <div className="relative">
-                <ImageIcon className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+                <ImageIcon className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
 
                 <Input
                   id="image"
                   type="url"
                   placeholder="https://example.com/photo.jpg"
-                  className="h-10 rounded-lg border-slate-200 pl-10 focus-visible:ring-emerald-500"
+                  className="h-10 rounded-lg border-border bg-input-background pl-10 text-foreground focus-visible:border-ring focus-visible:ring-ring/50"
                   {...form.register("image")}
                 />
               </div>
 
               {form.formState.errors.image && (
-                <p className="text-xs text-red-500">
+                <p className="text-xs text-destructive">
                   {form.formState.errors.image.message}
                 </p>
               )}
@@ -208,19 +208,19 @@ export default function RegisterPage() {
             <div className="space-y-1.5">
               <Label
                 htmlFor="password"
-                className="text-sm font-semibold text-slate-700"
+                className="text-sm font-semibold text-foreground"
               >
                 Password
               </Label>
 
               <div className="relative">
-                <LockKeyhole className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+                <LockKeyhole className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
 
                 <Input
                   id="password"
                   type={showPassword ? "text" : "password"}
                   placeholder="Create a strong password"
-                  className="h-10 rounded-lg border-slate-200 pl-10 pr-12 focus-visible:ring-emerald-500"
+                  className="h-10 rounded-lg border-border bg-input-background pl-10 pr-12 text-foreground focus-visible:border-ring focus-visible:ring-ring/50"
                   {...form.register("password")}
                 />
 
@@ -228,19 +228,19 @@ export default function RegisterPage() {
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
                   aria-label={showPassword ? "Hide password" : "Show password"}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 transition hover:text-emerald-600"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground transition hover:text-primary"
                 >
                   {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                 </button>
               </div>
 
               {form.formState.errors.password && (
-                <p className="text-xs text-red-500">
+                <p className="text-xs text-destructive">
                   {form.formState.errors.password.message}
                 </p>
               )}
 
-              <p className="text-xs leading-relaxed text-slate-500">
+              <p className="text-xs leading-relaxed text-muted-foreground">
                 At least 6 characters with uppercase and lowercase letters.
               </p>
             </div>
@@ -249,7 +249,7 @@ export default function RegisterPage() {
             <Button
               type="submit"
               disabled={form.formState.isSubmitting || isGoogleLoading}
-              className="h-10 w-full rounded-lg bg-emerald-700 text-sm font-semibold text-white shadow-md shadow-emerald-700/20 transition hover:bg-emerald-800 disabled:opacity-60"
+              className="h-10 w-full rounded-lg bg-primary text-sm font-semibold text-primary-foreground shadow-md shadow-primary/20 transition hover:bg-primary/90 disabled:opacity-60"
             >
               {form.formState.isSubmitting
                 ? "Creating Account..."
@@ -260,11 +260,11 @@ export default function RegisterPage() {
           {/* Divider */}
           <div className="relative my-4">
             <div className="absolute inset-0 flex items-center">
-              <span className="w-full border-t border-slate-200" />
+              <span className="w-full border-t border-border" />
             </div>
 
             <div className="relative flex justify-center">
-              <span className="bg-white px-3 text-xs text-slate-400">
+              <span className="bg-card px-3 text-xs text-muted-foreground">
                 OR CONTINUE WITH
               </span>
             </div>
@@ -276,7 +276,7 @@ export default function RegisterPage() {
             variant="outline"
             onClick={handleGoogleRegister}
             disabled={isGoogleLoading || form.formState.isSubmitting}
-            className="h-10 w-full rounded-lg border-slate-200 text-sm font-semibold text-slate-700 hover:bg-slate-50 disabled:opacity-60"
+            className="h-10 w-full rounded-lg border-border text-sm font-semibold text-foreground hover:bg-secondary disabled:opacity-60"
           >
             {isGoogleLoading ? (
               "Connecting to Google..."
@@ -306,11 +306,11 @@ export default function RegisterPage() {
           </Button>
 
           {/* Login Link */}
-          <p className="mt-5 text-center text-sm text-slate-600">
+          <p className="mt-5 text-center text-sm text-muted-foreground">
             Already have an account?{" "}
             <Link
               href="/login"
-              className="font-bold text-emerald-700 transition hover:text-emerald-900 hover:underline"
+              className="font-bold text-primary transition hover:text-primary/80 hover:underline"
             >
               Sign In
             </Link>

@@ -25,7 +25,7 @@ const galleryImages = [
 
 export default function GallerySection() {
   return (
-    <section className="bg-green-50 px-6 py-20 sm:py-24">
+    <section className="bg-secondary px-6 py-20 sm:py-24">
       <div className="mx-auto max-w-7xl">
         <motion.div
           initial={{ opacity: 0, y: 25 }}
@@ -34,15 +34,15 @@ export default function GallerySection() {
           transition={{ duration: 0.6 }}
           className="mb-12 text-center"
         >
-          <p className="mb-3 font-semibold uppercase tracking-widest text-green-700">
+          <p className="mb-3 font-semibold uppercase tracking-widest text-muted-foreground">
             Our Activities
           </p>
 
-          <h2 className="text-3xl font-bold text-gray-900 sm:text-4xl">
+          <h2 className="text-3xl font-bold text-foreground sm:text-4xl">
             Moments That Make a Difference
           </h2>
 
-          <p className="mx-auto mt-4 max-w-2xl text-gray-600">
+          <p className="mx-auto mt-4 max-w-2xl text-muted-foreground">
             Explore the beautiful moments of people coming together to make
             positive changes in their communities.
           </p>

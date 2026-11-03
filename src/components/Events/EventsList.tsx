@@ -178,19 +178,19 @@ export default function EventsList({
             ))}
           </div>
         ) : filteredEvents.length === 0 ? (
-          <div className="rounded-2xl border border-dashed border-green-200 bg-green-50/50 px-6 py-16 text-center">
+          <div className="rounded-2xl border border-dashed border-border bg-secondary/50 px-6 py-16 text-center">
             <CalendarDays
-              className="mx-auto mb-4 text-green-600"
+              className="mx-auto mb-4 text-primary"
               size={40}
             />
 
-            <h3 className="text-xl font-semibold text-gray-900">
+            <h3 className="text-xl font-semibold text-foreground">
               {endpoint === "/my-joined-events"
                 ? "No Joined Events"
                 : "No Events Found"}
             </h3>
 
-            <p className="mt-2 text-gray-600">
+            <p className="mt-2 text-muted-foreground">
               {events.length === 0
                 ? endpoint === "/my-joined-events"
                   ? "You have not joined any events yet. Explore upcoming events and join one!"

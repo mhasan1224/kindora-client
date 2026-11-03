@@ -42,13 +42,13 @@ export default function JWTTestPage() {
   };
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center gap-5 p-6">
-      <h1 className="text-2xl font-bold">JWT Authentication Test</h1>
+    <main className="flex min-h-screen flex-col items-center justify-center gap-5 bg-background p-6">
+      <h1 className="text-2xl font-bold text-foreground">JWT Authentication Test</h1>
 
       <button
         onClick={handleTestJWT}
         disabled={loading}
-        className="rounded-lg bg-emerald-600 px-6 py-3 text-white disabled:opacity-50"
+        className="rounded-lg bg-primary px-6 py-3 text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-50"
       >
         {loading ? "Testing..." : "Test JWT"}
       </button>

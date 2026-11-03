@@ -206,9 +206,9 @@ export default function EditEventPage() {
     return (
       <div className="flex min-h-[60vh] items-center justify-center">
         <div className="flex flex-col items-center gap-3">
-          <Spinner className="size-10 text-green-600" />
+          <Spinner className="size-10 text-primary" />
 
-          <p className="text-sm font-medium text-gray-600">
+          <p className="text-sm font-medium text-muted-foreground">
             Loading event details...
           </p>
         </div>
@@ -217,27 +217,27 @@ export default function EditEventPage() {
   }
 
   return (
-    <main className="min-h-screen bg-[#f7faf7] px-4 py-12 sm:px-6">
+    <main className="min-h-screen bg-background px-4 py-12 sm:px-6">
       <div className="mx-auto max-w-3xl">
         <Link
           href="/manage-events"
-          className="mb-6 inline-flex items-center gap-2 text-sm font-medium text-green-700 hover:text-green-800"
+          className="mb-6 inline-flex items-center gap-2 text-sm font-medium text-foreground hover:text-primary"
         >
           <ArrowLeft size={17} />
           Back to Manage Events
         </Link>
 
-        <div className="rounded-3xl border border-green-100 bg-white p-6 shadow-sm sm:p-9">
+        <div className="rounded-3xl border border-border bg-card p-6 shadow-sm sm:p-9">
           <div className="mb-8">
-            <p className="text-sm font-semibold uppercase tracking-wider text-green-700">
+            <p className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
               Manage Your Event
             </p>
 
-            <h1 className="mt-2 text-3xl font-bold text-gray-900">
+            <h1 className="mt-2 text-3xl font-bold text-foreground">
               Edit Event
             </h1>
 
-            <p className="mt-2 text-sm text-gray-500">
+            <p className="mt-2 text-sm text-muted-foreground">
               Update your event information below.
             </p>
           </div>
@@ -246,7 +246,7 @@ export default function EditEventPage() {
             <div>
               <label
                 htmlFor="title"
-                className="mb-2 block text-sm font-semibold text-gray-700"
+                className="mb-2 block text-sm font-semibold text-foreground"
               >
                 Event Title
               </label>
@@ -258,14 +258,14 @@ export default function EditEventPage() {
                 required
                 minLength={5}
                 maxLength={100}
-                className="w-full rounded-xl border border-gray-200 px-4 py-3 outline-none transition focus:border-green-500 focus:ring-2 focus:ring-green-100"
+                className="w-full rounded-xl border border-border bg-input-background px-4 py-3 text-foreground outline-none transition focus:border-ring focus:ring-2 focus:ring-ring/30"
               />
             </div>
 
             <div>
               <label
                 htmlFor="description"
-                className="mb-2 block text-sm font-semibold text-gray-700"
+                className="mb-2 block text-sm font-semibold text-foreground"
               >
                 Description
               </label>
@@ -278,14 +278,14 @@ export default function EditEventPage() {
                 minLength={20}
                 maxLength={2000}
                 rows={5}
-                className="w-full resize-y rounded-xl border border-gray-200 px-4 py-3 outline-none transition focus:border-green-500 focus:ring-2 focus:ring-green-100"
+                className="w-full resize-y rounded-xl border border-border bg-input-background px-4 py-3 text-foreground outline-none transition focus:border-ring focus:ring-2 focus:ring-ring/30"
               />
             </div>
 
             <div>
               <label
                 htmlFor="eventType"
-                className="mb-2 block text-sm font-semibold text-gray-700"
+                className="mb-2 block text-sm font-semibold text-foreground"
               >
                 Event Category
               </label>
@@ -295,7 +295,7 @@ export default function EditEventPage() {
                 value={formData.eventType}
                 onChange={handleChange}
                 required
-                className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 outline-none transition focus:border-green-500 focus:ring-2 focus:ring-green-100"
+                className="w-full rounded-xl border border-border bg-input-background px-4 py-3 text-foreground outline-none transition focus:border-ring focus:ring-2 focus:ring-ring/30"
               >
                 <option value="">Select a category</option>
                 {eventCategories.map((category) => (
@@ -309,7 +309,7 @@ export default function EditEventPage() {
             <div>
               <label
                 htmlFor="thumbnailUrl"
-                className="mb-2 block text-sm font-semibold text-gray-700"
+                className="mb-2 block text-sm font-semibold text-foreground"
               >
                 Thumbnail Image URL
               </label>
@@ -320,14 +320,14 @@ export default function EditEventPage() {
                 value={formData.thumbnailUrl}
                 onChange={handleChange}
                 required
-                className="w-full rounded-xl border border-gray-200 px-4 py-3 outline-none transition focus:border-green-500 focus:ring-2 focus:ring-green-100"
+                className="w-full rounded-xl border border-border bg-input-background px-4 py-3 text-foreground outline-none transition focus:border-ring focus:ring-2 focus:ring-ring/30"
               />
             </div>
 
             <div>
               <label
                 htmlFor="location"
-                className="mb-2 block text-sm font-semibold text-gray-700"
+                className="mb-2 block text-sm font-semibold text-foreground"
               >
                 Location
               </label>
@@ -339,14 +339,14 @@ export default function EditEventPage() {
                 required
                 minLength={3}
                 maxLength={150}
-                className="w-full rounded-xl border border-gray-200 px-4 py-3 outline-none transition focus:border-green-500 focus:ring-2 focus:ring-green-100"
+                className="w-full rounded-xl border border-border bg-input-background px-4 py-3 text-foreground outline-none transition focus:border-ring focus:ring-2 focus:ring-ring/30"
               />
             </div>
 
             <div>
               <label
                 htmlFor="eventDate"
-                className="mb-2 block text-sm font-semibold text-gray-700"
+                className="mb-2 block text-sm font-semibold text-foreground"
               >
                 Event Date
               </label>
@@ -360,14 +360,14 @@ export default function EditEventPage() {
                   timeZone: "Asia/Dhaka",
                 })}
                 required
-                className="w-full rounded-xl border border-gray-200 px-4 py-3 outline-none transition focus:border-green-500 focus:ring-2 focus:ring-green-100"
+                className="w-full rounded-xl border border-border bg-input-background px-4 py-3 text-foreground outline-none transition focus:border-ring focus:ring-2 focus:ring-ring/30"
               />
             </div>
 
-            <div className="flex flex-col-reverse gap-3 border-t border-gray-100 pt-6 sm:flex-row sm:justify-end">
+            <div className="flex flex-col-reverse gap-3 border-t border-border pt-6 sm:flex-row sm:justify-end">
               <Link
                 href="/manage-events"
-                className="rounded-xl border border-gray-200 px-6 py-3 text-center text-sm font-semibold text-gray-600 transition hover:bg-gray-50"
+                className="rounded-xl border border-border px-6 py-3 text-center text-sm font-semibold text-foreground transition hover:bg-secondary"
               >
                 Cancel
               </Link>
@@ -375,7 +375,7 @@ export default function EditEventPage() {
               <button
                 type="submit"
                 disabled={submitting}
-                className="inline-flex items-center justify-center gap-2 rounded-xl bg-green-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-green-600/20 transition hover:bg-green-700 disabled:cursor-not-allowed disabled:opacity-60"
+                className="inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/20 transition hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-60"
               >
                 <Save size={17} />
                 {submitting ? "Saving Changes..." : "Save Changes"}

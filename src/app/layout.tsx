@@ -1,4 +1,3 @@
-
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 
@@ -8,6 +7,7 @@ import "./globals.css";
 import NavbarWrapper from "@/components/ui/Shared/NavbarWrapper";
 import { Toaster } from "@/components/ui/sonner";
 import Footer from "@/components/ui/Shared/Footer";
+import ThemeProvider from "@/components/providers/ThemeProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,21 +25,27 @@ export const metadata: Metadata = {
     "Discover social development events and volunteer opportunities.",
 };
 
-
 export default function RootLayout({
   children,
 }: Readonly<{
   children: ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} flex min-h-screen flex-col antialiased`}
       >
-        <NavbarWrapper />
-        <main className="flex-1">{children}</main>
-        <Footer />
-        <Toaster position="top-right" richColors closeButton />
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="light"
+          enableSystem={false}
+          disableTransitionOnChange
+        >
+          <NavbarWrapper />
+          <main className="flex-1">{children}</main>
+          <Footer />
+          <Toaster position="top-right" richColors closeButton />
+        </ThemeProvider>
       </body>
     </html>
   );

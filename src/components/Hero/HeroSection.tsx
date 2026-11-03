@@ -71,17 +71,21 @@ export default function HeroSection() {
           </p>
 
           <div className="mt-9 flex flex-wrap gap-4">
-            <Button asChild size="lg" className="bg-green-600 text-white hover:bg-green-700">
-              <Link href="/upcoming-events">Explore Events</Link>
+            <Button
+              size="lg"
+              className="bg-primary text-primary-foreground hover:bg-primary/90"
+              render={<Link href="/upcoming-events" />}
+            >
+              Explore Events
             </Button>
 
             <Button
-              asChild
               size="lg"
               variant="outline"
-              className="border-white bg-white/10 text-white hover:bg-white hover:text-green-900"
+              className="border-white bg-white/10 text-white hover:bg-card hover:text-card-foreground"
+              render={<Link href="/create-event" />}
             >
-              <Link href="/create-event">Create an Event</Link>
+              Create an Event
             </Button>
           </div>
         </motion.div>
@@ -96,7 +100,7 @@ export default function HeroSection() {
             aria-current={currentImage === index}
             className={`h-2.5 rounded-full transition-all duration-300 ${
               currentImage === index
-                ? "w-8 bg-green-400"
+                ? "w-8 bg-primary"
                 : "w-2.5 bg-white/60"
             }`}
           />

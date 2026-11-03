@@ -115,7 +115,7 @@ export default function EventDetails({ eventId }: EventDetailsProps) {
 
         if (result.success && isActive) {
           const joined = result.data.some(
-            (joinedEvent) => joinedEvent._id === event._id
+            (joinedEvent) => joinedEvent._id === event?._id
           );
 
           setIsJoined(joined);
@@ -189,11 +189,11 @@ export default function EventDetails({ eventId }: EventDetailsProps) {
   // Loading State
   if (loading) {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-gray-50 px-4">
+      <main className="flex min-h-screen items-center justify-center bg-background px-4">
         <div className="flex flex-col items-center gap-3">
-          <Spinner className="size-10 text-green-600" />
+          <Spinner className="size-10 text-primary" />
 
-          <p className="text-sm font-medium text-gray-600">
+          <p className="text-sm font-medium text-muted-foreground">
             Loading event details...
           </p>
         </div>
@@ -204,18 +204,18 @@ export default function EventDetails({ eventId }: EventDetailsProps) {
   // Error State
   if (error || !event) {
     return (
-      <main className="min-h-screen bg-gray-50 px-6 py-24 text-center">
-        <h2 className="text-2xl font-bold text-gray-900">
+      <main className="min-h-screen bg-background px-6 py-24 text-center">
+        <h2 className="text-2xl font-bold text-foreground">
           Event Not Found
         </h2>
 
-        <p className="mt-3 text-gray-600">
+        <p className="mt-3 text-muted-foreground">
           We could not find this event. It may have been deleted.
         </p>
 
         <Link
           href="/upcoming-events"
-          className="mt-6 inline-flex items-center gap-2 rounded-lg bg-green-600 px-5 py-3 font-semibold text-white transition-colors hover:bg-green-700"
+          className="mt-6 inline-flex items-center gap-2 rounded-lg bg-primary px-5 py-3 font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
         >
           <ArrowLeft size={18} />
           Back to Events
@@ -244,13 +244,13 @@ export default function EventDetails({ eventId }: EventDetailsProps) {
     isOwnEvent;
 
   return (
-    <main className="min-h-screen bg-gray-50 px-4 py-10 sm:px-6 sm:py-14">
+    <main className="min-h-screen bg-background px-4 py-10 sm:px-6 sm:py-14">
       <div className="mx-auto max-w-7xl">
 
         {/* Back to Events */}
         <Link
           href="/upcoming-events"
-          className="mb-6 inline-flex items-center gap-2 text-sm font-medium text-green-700 transition-colors hover:text-green-900"
+          className="mb-6 inline-flex items-center gap-2 text-sm font-medium text-foreground transition-colors hover:text-primary"
         >
           <ArrowLeft size={18} />
           Back to Events
@@ -263,7 +263,7 @@ export default function EventDetails({ eventId }: EventDetailsProps) {
           <aside className="w-full space-y-5">
 
             {/* Event Image */}
-            <div className="relative aspect-square w-full overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
+            <div className="relative aspect-square w-full overflow-hidden rounded-xl border border-border bg-card shadow-sm">
               <Image
                 src={event.thumbnailUrl}
                 alt={event.title}
@@ -275,8 +275,8 @@ export default function EventDetails({ eventId }: EventDetailsProps) {
             </div>
 
             {/* Registration Card */}
-            <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
-              <p className="text-center text-sm font-medium text-gray-800">
+            <div className="rounded-xl border border-border bg-card p-5 shadow-sm">
+              <p className="text-center text-sm font-medium text-card-foreground">
                 Join this event and become a participant.
               </p>
 
@@ -284,7 +284,7 @@ export default function EventDetails({ eventId }: EventDetailsProps) {
                 type="button"
                 onClick={handleJoinEvent}
                 disabled={buttonDisabled}
-                className="mt-4 flex w-full items-center justify-center gap-2 rounded-lg bg-green-600 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-green-700 disabled:cursor-not-allowed disabled:opacity-60"
+                className="mt-4 flex w-full items-center justify-center gap-2 rounded-lg bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-60"
               >
                 <Users size={18} />
 
@@ -299,7 +299,7 @@ export default function EventDetails({ eventId }: EventDetailsProps) {
                         : "Join Event"}
               </button>
 
-              <p className="mt-2 text-center text-xs text-gray-500">
+              <p className="mt-2 text-center text-xs text-muted-foreground">
                 {isJoined
                   ? "You are already a participant in this event."
                   : isOwnEvent
@@ -313,7 +313,7 @@ export default function EventDetails({ eventId }: EventDetailsProps) {
           <section className="w-full min-w-0">
 
             {/* Event Title */}
-            <h1 className="text-2xl font-bold leading-tight text-gray-900 sm:text-3xl">
+            <h1 className="text-2xl font-bold leading-tight text-foreground sm:text-3xl">
               {event.title}
             </h1>
 
@@ -321,19 +321,19 @@ export default function EventDetails({ eventId }: EventDetailsProps) {
 
               {/* Event Date */}
               <div className="flex items-start gap-3">
-                <div className="rounded-md bg-gray-100 p-2">
+                <div className="rounded-md bg-secondary p-2">
                   <CalendarDays
                     size={18}
-                    className="text-gray-700"
+                    className="text-secondary-foreground"
                   />
                 </div>
 
                 <div>
-                  <p className="text-sm font-semibold text-gray-800">
+                  <p className="text-sm font-semibold text-foreground">
                     {formattedDate}
                   </p>
 
-                  <p className="mt-1 text-xs text-gray-500">
+                  <p className="mt-1 text-xs text-muted-foreground">
                     Event Date
                   </p>
                 </div>
@@ -341,19 +341,19 @@ export default function EventDetails({ eventId }: EventDetailsProps) {
 
               {/* Event Location */}
               <div className="flex items-start gap-3">
-                <div className="rounded-md bg-gray-100 p-2">
+                <div className="rounded-md bg-secondary p-2">
                   <MapPin
                     size={18}
-                    className="text-gray-700"
+                    className="text-secondary-foreground"
                   />
                 </div>
 
                 <div>
-                  <p className="text-sm font-semibold text-gray-800">
+                  <p className="text-sm font-semibold text-foreground">
                     Location
                   </p>
 
-                  <p className="mt-1 text-xs text-gray-500">
+                  <p className="mt-1 text-xs text-muted-foreground">
                     {event.location}
                   </p>
                 </div>
@@ -361,42 +361,42 @@ export default function EventDetails({ eventId }: EventDetailsProps) {
 
               {/* Event Visibility */}
               <div className="flex items-start gap-3">
-                <div className="rounded-md bg-gray-100 p-2">
+                <div className="rounded-md bg-secondary p-2">
                   <Globe
                     size={18}
-                    className="text-gray-700"
+                    className="text-secondary-foreground"
                   />
                 </div>
 
                 <div>
-                  <p className="text-sm font-semibold text-gray-800">
+                  <p className="text-sm font-semibold text-foreground">
                     Public
                   </p>
 
-                  <p className="mt-1 text-xs text-gray-500">
+                  <p className="mt-1 text-xs text-muted-foreground">
                     Anyone can see this event
                   </p>
                 </div>
               </div>
 
               {/* Event Description */}
-              <div className="border-t border-gray-200 pt-5">
-                <h2 className="text-lg font-bold text-gray-900">
+              <div className="border-t border-border pt-5">
+                <h2 className="text-lg font-bold text-foreground">
                   About This Event
                 </h2>
 
-                <p className="mt-3 whitespace-pre-line text-sm leading-7 text-gray-600">
+                <p className="mt-3 whitespace-pre-line text-sm leading-7 text-muted-foreground">
                   {event.description}
                 </p>
               </div>
 
               {/* Event Categories */}
-              <div className="border-t border-gray-200 pt-5">
-                <h2 className="text-lg font-bold text-gray-900">
+              <div className="border-t border-border pt-5">
+                <h2 className="text-lg font-bold text-foreground">
                   Categories
                 </h2>
 
-                <span className="mt-3 inline-flex rounded-full bg-green-100 px-4 py-2 text-sm font-medium text-green-700">
+                <span className="mt-3 inline-flex rounded-full bg-secondary px-4 py-2 text-sm font-medium text-secondary-foreground">
                   {event.eventType}
                 </span>
               </div>

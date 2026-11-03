@@ -61,19 +61,19 @@ export default function RecentEventsSection() {
   }, []);
 
   return (
-    <section className="bg-white px-6 py-20 sm:py-24">
+    <section className="bg-card px-6 py-20 sm:py-24 dark:bg-secondary">
       <div className="mx-auto max-w-7xl">
         <div className="mb-12 flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
           <div>
-            <p className="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-green-600">
+            <p className="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-muted-foreground">
               Make a Difference
             </p>
 
-            <h2 className="text-3xl font-bold text-gray-900 sm:text-4xl">
-              Upcoming <span className="text-green-600">Events</span>
+            <h2 className="text-3xl font-bold text-foreground sm:text-4xl">
+              Upcoming <span className="text-primary">Events</span>
             </h2>
 
-            <p className="mt-4 max-w-xl leading-7 text-gray-600">
+            <p className="mt-4 max-w-xl leading-7 text-muted-foreground">
               Discover upcoming opportunities and join hands to create positive
               changes in your community.
             </p>
@@ -81,7 +81,7 @@ export default function RecentEventsSection() {
 
           <Link
             href="/upcoming-events"
-            className="inline-flex items-center gap-2 font-semibold text-green-700 transition-colors hover:text-green-900"
+            className="inline-flex items-center gap-2 font-semibold text-primary transition-colors hover:text-primary/80"
           >
             View All Events
             <ArrowRight size={18} />
@@ -95,14 +95,14 @@ export default function RecentEventsSection() {
             ))}
           </div>
         ) : events.length === 0 ? (
-          <div className="rounded-2xl border border-dashed border-green-200 bg-green-50/50 px-6 py-16 text-center">
-            <CalendarDays className="mx-auto mb-4 text-green-600" size={40} />
+          <div className="rounded-2xl border border-dashed border-border bg-secondary/50 px-6 py-16 text-center dark:bg-background/40">
+            <CalendarDays className="mx-auto mb-4 text-primary" size={40} />
 
-            <h3 className="text-xl font-semibold text-gray-900">
+            <h3 className="text-xl font-semibold text-foreground">
               No Upcoming Events
             </h3>
 
-            <p className="mt-2 text-gray-600">
+            <p className="mt-2 text-muted-foreground">
               Check back later for new community events.
             </p>
           </div>
@@ -116,7 +116,7 @@ export default function RecentEventsSection() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 whileHover={{ y: -6 }}
-                className="overflow-hidden rounded-2xl border border-green-100 bg-white shadow-sm transition-shadow hover:shadow-xl"
+                className="overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition-shadow hover:shadow-xl"
               >
                 <div
                   className="h-52 bg-cover bg-center"
@@ -128,21 +128,21 @@ export default function RecentEventsSection() {
                 />
 
                 <div className="p-6">
-                  <span className="inline-block rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-700">
+                  <span className="inline-block rounded-full bg-secondary px-3 py-1 text-xs font-semibold text-secondary-foreground">
                     {event.eventType}
                   </span>
 
-                  <h3 className="mt-4 line-clamp-1 text-xl font-bold text-gray-900">
+                  <h3 className="mt-4 line-clamp-1 text-xl font-bold text-foreground">
                     {event.title}
                   </h3>
 
-                  <p className="mt-3 line-clamp-2 text-sm leading-6 text-gray-600">
+                  <p className="mt-3 line-clamp-2 text-sm leading-6 text-muted-foreground">
                     {event.description}
                   </p>
 
-                  <div className="mt-5 space-y-3 border-t border-gray-100 pt-4 text-sm text-gray-600">
+                  <div className="mt-5 space-y-3 border-t border-border pt-4 text-sm text-muted-foreground">
                     <div className="flex items-center gap-2">
-                      <CalendarDays size={17} className="text-green-600" />
+                      <CalendarDays size={17} className="text-primary" />
                       {new Date(
                         `${event.eventDate}T00:00:00`,
                       ).toLocaleDateString("en-US", {
@@ -153,7 +153,7 @@ export default function RecentEventsSection() {
                     </div>
 
                     <div className="flex items-center gap-2">
-                      <MapPin size={17} className="text-green-600" />
+                      <MapPin size={17} className="text-primary" />
                       {event.location}
                     </div>
                   </div>

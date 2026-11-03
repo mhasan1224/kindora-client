@@ -30,14 +30,14 @@ const steps = [
 
 export default function HowItWorksSection() {
   return (
-    <section className="bg-green-50/60 px-6 py-20 sm:py-24">
+    <section className="bg-secondary px-6 py-20 sm:py-24">
       <div className="mx-auto max-w-7xl">
         <div className="mx-auto mb-16 max-w-2xl text-center">
           <motion.p
             initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-green-600"
+            className="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-muted-foreground"
           >
             Simple Process
           </motion.p>
@@ -47,12 +47,12 @@ export default function HowItWorksSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="text-3xl font-bold text-gray-900 sm:text-4xl"
+            className="text-3xl font-bold text-foreground sm:text-4xl"
           >
-            How <span className="text-green-600">Kindora</span> Works
+            How <span className="text-primary">Kindora</span> Works
           </motion.h2>
 
-          <p className="mt-4 leading-7 text-gray-600">
+          <p className="mt-4 leading-7 text-muted-foreground">
             Making a difference starts with a small step. Follow these
             three simple steps and become part of something meaningful.
           </p>
@@ -73,31 +73,31 @@ export default function HowItWorksSection() {
                   delay: index * 0.2,
                 }}
                 whileHover={{ y: -6 }}
-                className="relative rounded-2xl border border-green-100 bg-white p-8 shadow-sm transition-shadow hover:shadow-lg"
+                className="relative rounded-2xl border border-border bg-card p-8 shadow-sm transition-shadow hover:shadow-lg"
               >
                 <div className="mb-6 flex items-center justify-between">
-                  <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-green-100 text-green-700">
+                  <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-secondary text-primary">
                     <Icon size={30} strokeWidth={1.8} />
                   </div>
 
-                  <span className="text-4xl font-bold text-green-100">
+                  <span className="text-4xl font-bold text-muted/70">
                     {step.number}
                   </span>
                 </div>
 
-                <h3 className="mb-3 text-xl font-bold text-gray-900">
+                <h3 className="mb-3 text-xl font-bold text-foreground">
                   {step.title}
                 </h3>
 
-                <p className="text-sm leading-7 text-gray-600">
+                <p className="text-sm leading-7 text-muted-foreground">
                   {step.description}
                 </p>
 
-                <div className="mt-6 flex items-center gap-2 text-sm font-semibold text-green-700">
+                <div className="mt-6 flex items-center gap-2 text-sm font-semibold text-primary">
                 </div>
 
                 {index !== steps.length - 1 && (
-                  <div className="absolute -right-7 top-1/2 hidden -translate-y-1/2 text-green-400 md:block">
+                  <div className="absolute -right-7 top-1/2 hidden -translate-y-1/2 text-primary/50 md:block">
                     <ArrowRight size={24} aria-hidden="true" />
                   </div>
                 )}
