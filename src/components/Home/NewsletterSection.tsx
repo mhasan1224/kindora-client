@@ -13,7 +13,7 @@ export default function NewsletterSection() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
-        className="mx-auto max-w-5xl overflow-hidden rounded-3xl bg-green-700 px-6 py-12 text-center shadow-xl sm:px-12 sm:py-16"
+        className="mx-auto max-w-5xl overflow-hidden rounded-3xl bg-green-400 px-6 py-12 text-center shadow-xl sm:px-12 sm:py-16"
       >
         <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-white/15">
           <Leaf className="h-8 w-8 text-white" />

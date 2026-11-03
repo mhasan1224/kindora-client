@@ -2,11 +2,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 import { CalendarDays } from "lucide-react";
 
 import EventCard from "@/components/Events/EventCard";
+import EventCardSkeleton from "@/components/Events/EventCardSkeleton";
 import EventsFilter from "@/components/Events/EventsFilter";
+import { getAccessToken } from "@/lib/get-access-token";
 
 type Event = {
   _id: string;
@@ -29,15 +32,40 @@ type EventsListProps = {
   endpoint?: string;
 };
 
+const allowedCategories = [
+  "Tree Plantation",
+  "Community Cleanup",
+  "Food Donation",
+  "Education Support",
+  "Blood Donation",
+  "Clothes Distribution",
+  "Community Support",
+  "Health Awareness",
+];
+
 export default function EventsList({
   endpoint = "/upcoming-events",
 }: EventsListProps) {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const categoryFromUrl = searchParams.get("category");
+
+  const initialCategory =
+    categoryFromUrl &&
+    allowedCategories.includes(categoryFromUrl)
+      ? categoryFromUrl
+      : "All Categories";
+
   const [events, setEvents] = useState<Event[]>([]);
   const [selectedCategory, setSelectedCategory] =
-    useState("All Categories");
+    useState(initialCategory);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    let isActive = true;
+
     async function fetchEvents() {
       setLoading(true);
 
@@ -45,8 +73,20 @@ export default function EventsList({
         const apiUrl =
           process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 
+        const headers: HeadersInit = {};
+
+        if (endpoint === "/my-joined-events") {
+          const token = await getAccessToken();
+
+          if (!token) {
+            throw new Error("Authentication required");
+          }
+
+          headers.Authorization = `Bearer ${token}`;
+        }
+
         const response = await fetch(`${apiUrl}${endpoint}`, {
-          credentials: "include",
+          headers,
         });
 
         if (!response.ok) {
@@ -59,18 +99,62 @@ export default function EventsList({
           throw new Error(result.message);
         }
 
-        setEvents(result.data);
+        if (isActive) {
+          setEvents(result.data);
+        }
       } catch (error) {
         console.error("Fetch events error:", error);
-        toast.error("Failed to load events.");
-        setEvents([]);
+
+        if (isActive) {
+          toast.error("Failed to load events.");
+          setEvents([]);
+        }
       } finally {
-        setLoading(false);
+        if (isActive) {
+          setLoading(false);
+        }
       }
     }
 
     fetchEvents();
+
+    return () => {
+      isActive = false;
+    };
   }, [endpoint]);
+
+  useEffect(() => {
+    const nextCategory =
+      categoryFromUrl &&
+      allowedCategories.includes(categoryFromUrl)
+        ? categoryFromUrl
+        : "All Categories";
+
+    setSelectedCategory(nextCategory);
+  }, [categoryFromUrl]);
+
+  const handleCategoryChange = (category: string) => {
+    setSelectedCategory(category);
+
+    if (endpoint !== "/upcoming-events") {
+      return;
+    }
+
+    const params = new URLSearchParams(searchParams.toString());
+
+    if (category === "All Categories") {
+      params.delete("category");
+    } else {
+      params.set("category", category);
+    }
+
+    const queryString = params.toString();
+
+    router.push(
+      queryString ? `${pathname}?${queryString}` : pathname,
+      { scroll: false }
+    );
+  };
 
   const filteredEvents =
     selectedCategory === "All Categories"
@@ -83,17 +167,14 @@ export default function EventsList({
     <div>
       <EventsFilter
         selectedCategory={selectedCategory}
-        onCategoryChange={setSelectedCategory}
+        onCategoryChange={handleCategoryChange}
       />
 
       <div className="mt-10">
         {loading ? (
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {Array.from({ length: 6 }).map((_, index) => (
-              <div
-                key={index}
-                className="h-80 animate-pulse rounded-2xl bg-gray-100"
-              />
+              <EventCardSkeleton key={index} />
             ))}
           </div>
         ) : filteredEvents.length === 0 ? (

@@ -18,6 +18,9 @@ import {
 } from "lucide-react";
 import { motion } from "motion/react";
 
+import { getAccessToken } from "@/lib/get-access-token";
+import EventCardSkeleton from "@/components/Events/EventCardSkeleton";
+
 type Event = {
   _id: string;
   title: string;
@@ -41,11 +44,12 @@ export default function ManageEventsPage() {
         const apiUrl =
           process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 
+        const token = await getAccessToken();
+
         const response = await fetch(`${apiUrl}/my-events`, {
           method: "GET",
-          credentials: "include",
           headers: {
-            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
         });
 
@@ -79,9 +83,13 @@ export default function ManageEventsPage() {
       const apiUrl =
         process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 
+      const token = await getAccessToken();
+
       const response = await fetch(`${apiUrl}/events/${deletingEventId}`, {
         method: "DELETE",
-        credentials: "include",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
 
       const result = await response.json();
@@ -115,17 +123,7 @@ export default function ManageEventsPage() {
 
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {Array.from({ length: 6 }).map((_, index) => (
-              <div
-                key={index}
-                className="overflow-hidden rounded-2xl bg-white shadow-sm"
-              >
-                <div className="aspect-video animate-pulse bg-gray-200" />
-                <div className="space-y-4 p-5">
-                  <div className="h-4 w-24 animate-pulse rounded bg-gray-200" />
-                  <div className="h-6 w-3/4 animate-pulse rounded bg-gray-200" />
-                  <div className="h-4 w-full animate-pulse rounded bg-gray-200" />
-                </div>
-              </div>
+              <EventCardSkeleton key={index} />
             ))}
           </div>
         </div>

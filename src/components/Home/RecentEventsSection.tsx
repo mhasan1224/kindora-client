@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useEffect, useState } from "react";
@@ -5,6 +6,8 @@ import Link from "next/link";
 import { motion } from "motion/react";
 import { CalendarDays, MapPin, ArrowRight } from "lucide-react";
 import { toast } from "sonner";
+
+import EventCardSkeleton from "@/components/Events/EventCardSkeleton";
 
 type Event = {
   _id: string;
@@ -46,7 +49,6 @@ export default function RecentEventsSection() {
         }
 
         setEvents(result.data);
-        
       } catch (error) {
         console.error("Fetch events error:", error);
         toast.error("Failed to load upcoming events.");
@@ -89,18 +91,17 @@ export default function RecentEventsSection() {
         {loading ? (
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {Array.from({ length: 3 }).map((_, index) => (
-              <div
-                key={index}
-                className="h-80 animate-pulse rounded-2xl bg-gray-100"
-              />
+              <EventCardSkeleton key={index} />
             ))}
           </div>
         ) : events.length === 0 ? (
           <div className="rounded-2xl border border-dashed border-green-200 bg-green-50/50 px-6 py-16 text-center">
             <CalendarDays className="mx-auto mb-4 text-green-600" size={40} />
+
             <h3 className="text-xl font-semibold text-gray-900">
               No Upcoming Events
             </h3>
+
             <p className="mt-2 text-gray-600">
               Check back later for new community events.
             </p>

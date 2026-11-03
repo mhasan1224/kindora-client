@@ -14,6 +14,8 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { authClient } from "@/lib/auth-client";
+import { getAccessToken } from "@/lib/get-access-token";
+import { Spinner } from "@/components/ui/spinner";
 
 type Event = {
   _id: string;
@@ -88,7 +90,7 @@ export default function EventDetails({ eventId }: EventDetailsProps) {
 
   // Check Whether User Has Already Joined
   useEffect(() => {
-    if (!session?.user || !event) {
+    if (sessionPending || !session?.user || !event) {
       setIsJoined(false);
       return;
     }
@@ -97,8 +99,12 @@ export default function EventDetails({ eventId }: EventDetailsProps) {
 
     async function checkJoinedStatus() {
       try {
+        const token = await getAccessToken();
+
         const response = await fetch(`${apiUrl}/my-joined-events`, {
-          credentials: "include",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         });
 
         if (!response.ok) {
@@ -124,7 +130,7 @@ export default function EventDetails({ eventId }: EventDetailsProps) {
     return () => {
       isActive = false;
     };
-  }, [session, event, apiUrl]);
+  }, [session, sessionPending, event, apiUrl]);
 
   // Join Event
   const handleJoinEvent = async () => {
@@ -149,11 +155,15 @@ export default function EventDetails({ eventId }: EventDetailsProps) {
     try {
       setJoining(true);
 
+      const token = await getAccessToken();
+
       const response = await fetch(
         `${apiUrl}/events/${event._id}/join`,
         {
           method: "POST",
-          credentials: "include",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
 
@@ -179,17 +189,13 @@ export default function EventDetails({ eventId }: EventDetailsProps) {
   // Loading State
   if (loading) {
     return (
-      <main className="min-h-screen bg-gray-50 px-4 py-12 sm:px-6">
-        <div className="mx-auto max-w-7xl animate-pulse">
-          <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
-            <div className="h-80 rounded-xl bg-gray-200" />
+      <main className="flex min-h-screen items-center justify-center bg-gray-50 px-4">
+        <div className="flex flex-col items-center gap-3">
+          <Spinner className="size-10 text-green-600" />
 
-            <div>
-              <div className="h-8 w-2/3 rounded bg-gray-200" />
-              <div className="mt-6 h-32 rounded bg-gray-200" />
-              <div className="mt-6 h-40 rounded bg-gray-200" />
-            </div>
-          </div>
+          <p className="text-sm font-medium text-gray-600">
+            Loading event details...
+          </p>
         </div>
       </main>
     );

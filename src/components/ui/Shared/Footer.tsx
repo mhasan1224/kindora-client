@@ -1,130 +1,186 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { motion } from "motion/react";
-import { Mail, MapPin, Phone, Sprout, Globe, Users, Heart } from "lucide-react";
+import {
+  CalendarDays,
+  CalendarCheck,
+  PlusCircle,
+  Users,
+  MapPin,
+  Heart,
+  ArrowUpRight,
+} from "lucide-react";
 
 const quickLinks = [
   { label: "Home", href: "/" },
   { label: "Upcoming Events", href: "/upcoming-events" },
-  { label: "Create Event", href: "/create-event" },
   { label: "About Us", href: "/#about" },
 ];
 
+const activityLinks = [
+  {
+    label: "Create Event",
+    href: "/create-event",
+    icon: PlusCircle,
+  },
+  {
+    label: "Manage Events",
+    href: "/manage-events",
+    icon: CalendarCheck,
+  },
+  {
+    label: "Joined Events",
+    href: "/my-joined-events",
+    icon: Users,
+  },
+];
+
 const categories = [
-  "Tree Plantation",
-  "Community Cleanup",
-  "Food Donation",
-  "Education Support",
+  { label: "Tree Plantation", value: "Tree Plantation" },
+  { label: "Community Cleanup", value: "Community Cleanup" },
+  { label: "Food Donation", value: "Food Donation" },
+  { label: "Education Support", value: "Education Support" },
+  { label: "Blood Donation", value: "Blood Donation" },
 ];
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-gray-950 px-6 pt-16 text-gray-300">
-      <div className="mx-auto grid max-w-7xl gap-12 pb-12 sm:grid-cols-2 lg:grid-cols-4">
+    <footer className="border-t border-emerald-200 bg-[#cffbf4] px-6 pt-14 text-slate-700 sm:px-8">
+      <div className="mx-auto grid max-w-7xl gap-10 pb-12 sm:grid-cols-2 lg:grid-cols-4">
+        {/* Brand Information */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
+          className="space-y-5"
         >
-          <Link href="/" className="mb-5 inline-flex items-center gap-2">
-            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-green-600">
-              <Sprout className="h-6 w-6 text-white" />
-            </span>
-            <span className="text-2xl font-bold text-white">
-              Kindora<span className="text-green-500">.</span>
-            </span>
+          <Link href="/" className="inline-flex items-center">
+            <Image
+              src="/kindora-logo.jpg"
+              alt="Kindora - Small Acts, Big Impact"
+              width={170}
+              height={65}
+              className="h-14 w-auto object-contain"
+            />
           </Link>
 
-          <p className="max-w-xs text-sm leading-7 text-gray-400">
+          <p className="max-w-xs text-sm leading-7 text-slate-600">
             Bringing people together through kindness, volunteering, and
-            meaningful community activities.
+            meaningful community activities. Every small act can make a big
+            difference.
           </p>
 
-          <div className="mt-6 flex gap-3">
-            <a
-              href="#"
-              aria-label="Community"
-              className="rounded-lg bg-white/10 p-2 transition hover:bg-green-600"
-            >
-              <Users size={18} />
-            </a>
-
-            <a
-              href="#"
-              aria-label="Website"
-              className="rounded-lg bg-white/10 p-2 transition hover:bg-green-600"
-            >
-              <Globe size={18} />
-            </a>
-
-            <a
-              href="#"
-              aria-label="Support"
-              className="rounded-lg bg-white/10 p-2 transition hover:bg-green-600"
-            >
-              <Heart size={18} />
-            </a>
+          <div className="inline-flex items-center gap-2 rounded-full bg-white/70 px-4 py-2 text-sm font-medium text-emerald-700">
+            <Heart className="h-4 w-4 fill-emerald-600 text-emerald-600" />
+            Small Acts, Big Impact
           </div>
         </motion.div>
 
+        {/* Quick Links */}
         <div>
-          <h3 className="mb-5 font-semibold text-white">Quick Links</h3>
-          <ul className="space-y-3 text-sm">
+          <h3 className="mb-5 text-base font-bold text-slate-900">
+            Quick Links
+          </h3>
+
+          <ul className="space-y-3">
             {quickLinks.map((link) => (
               <li key={link.href}>
                 <Link
                   href={link.href}
-                  className="transition hover:text-green-400"
+                  className="group inline-flex items-center gap-2 text-sm text-slate-600 transition-colors hover:text-emerald-700"
                 >
-                  {link.label}
+                  <span>{link.label}</span>
+                  <ArrowUpRight className="h-3.5 w-3.5 opacity-0 transition-all group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:opacity-100" />
                 </Link>
               </li>
             ))}
           </ul>
         </div>
 
+        {/* My Activities */}
         <div>
-          <h3 className="mb-5 font-semibold text-white">Event Categories</h3>
-          <ul className="space-y-3 text-sm">
+          <h3 className="mb-5 text-base font-bold text-slate-900">
+            My Activities
+          </h3>
+
+          <ul className="space-y-3">
+            {activityLinks.map((link) => {
+              const Icon = link.icon;
+
+              return (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className="group inline-flex items-center gap-3 text-sm text-slate-600 transition-colors hover:text-emerald-700"
+                  >
+                    <Icon className="h-4 w-4 text-emerald-600 transition-transform group-hover:scale-110" />
+                    {link.label}
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+
+        {/* Event Categories */}
+        <div>
+          <h3 className="mb-5 text-base font-bold text-slate-900">
+            Event Categories
+          </h3>
+
+          <ul className="space-y-3">
             {categories.map((category) => (
-              <li key={category} className="transition hover:text-green-400">
-                {category}
+              <li key={category.value}>
+                <Link
+                  href={`/upcoming-events?category=${encodeURIComponent(category.value)}`}
+                  className="group flex items-center gap-2 text-sm text-slate-600 transition-colors hover:text-emerald-700"
+                >
+                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-600 transition-transform group-hover:scale-150" />
+                  {category.label}
+                </Link>
               </li>
             ))}
           </ul>
         </div>
-
-        <div>
-          <h3 className="mb-5 font-semibold text-white">Contact Us</h3>
-          <ul className="space-y-4 text-sm text-gray-400">
-            <li className="flex items-start gap-3">
-              <MapPin className="mt-1 h-4 w-4 shrink-0 text-green-500" />
-              Bangladesh
-            </li>
-            <li className="flex items-center gap-3">
-              <Mail className="h-4 w-4 shrink-0 text-green-500" />
-              <a
-                href="mailto:hello@kindora.com"
-                className="hover:text-green-400"
-              >
-                hello@kindora.com
-              </a>
-            </li>
-            <li className="flex items-center gap-3">
-              <Phone className="h-4 w-4 shrink-0 text-green-500" />
-              Community Support
-            </li>
-          </ul>
-        </div>
       </div>
 
-      <div className="border-t border-white/10 py-6 text-center text-sm text-gray-500">
-        © {currentYear} Kindora. All rights reserved. Made with care for our
-        community.
+      {/* Contact and Location */}
+      <div className="mx-auto flex max-w-7xl flex-col gap-4 border-t border-emerald-200 py-6 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex items-center gap-2 text-sm text-slate-600">
+          <MapPin className="h-4 w-4 text-emerald-700" />
+          Bangladesh
+        </div>
+
+        <Link
+          href="/upcoming-events"
+          className="inline-flex items-center gap-2 text-sm font-medium text-emerald-700 transition-colors hover:text-emerald-900"
+        >
+          Explore Events
+          <CalendarDays className="h-4 w-4" />
+        </Link>
+      </div>
+
+      {/* Copyright */}
+      <div className="border-t border-emerald-200 py-6 text-center">
+        <p className="text-sm text-slate-600">
+          © {currentYear}{" "}
+          <Link
+            href="/"
+            className="font-semibold text-emerald-800 hover:text-emerald-600"
+          >
+            Kindora
+          </Link>
+          . All rights reserved.
+        </p>
+
+        <p className="mt-2 text-xs text-slate-500">
+          Made with care for our community.
+        </p>
       </div>
     </footer>
   );

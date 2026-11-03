@@ -7,6 +7,9 @@ import Link from "next/link";
 import { toast } from "sonner";
 import { ArrowLeft, Save } from "lucide-react";
 
+import { getAccessToken } from "@/lib/get-access-token";
+import { Spinner } from "@/components/ui/spinner";
+
 const eventCategories = [
   "Tree Plantation",
   "Community Cleanup",
@@ -54,7 +57,6 @@ export default function EditEventPage() {
 
         const response = await fetch(`${apiUrl}/events/${eventId}`, {
           method: "GET",
-          credentials: "include",
         });
 
         const result = await response.json();
@@ -165,11 +167,13 @@ export default function EditEventPage() {
       const apiUrl =
         process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 
+      const token = await getAccessToken();
+
       const response = await fetch(`${apiUrl}/events/${eventId}`, {
         method: "PUT",
-        credentials: "include",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(formData),
       });
@@ -197,12 +201,17 @@ export default function EditEventPage() {
     }
   };
 
+  // Loading State
   if (loading) {
     return (
       <div className="flex min-h-[60vh] items-center justify-center">
-        <p className="animate-pulse text-gray-500">
-          Loading event details...
-        </p>
+        <div className="flex flex-col items-center gap-3">
+          <Spinner className="size-10 text-green-600" />
+
+          <p className="text-sm font-medium text-gray-600">
+            Loading event details...
+          </p>
+        </div>
       </div>
     );
   }

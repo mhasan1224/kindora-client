@@ -1,3 +1,14 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
+
+body,
+main,
+section,
+article,
+aside,
+header,
+footer {
+    background-color: var(--color-green-50);
+    /* background-color: #cffbf4; */
+}

@@ -16,6 +16,7 @@ import {
 import Link from "next/link";
 
 import { eventCategories } from "@/lib/event-categories";
+import { getAccessToken } from "@/lib/get-access-token";
 
 const eventSchema = z.object({
   title: z
@@ -114,20 +115,18 @@ export default function CreateEventPage() {
 
       const eventData = validation.data;
 
-      console.log("Sending event data:", eventData);
+      const token = await getAccessToken();
 
       const response = await fetch(`${apiUrl}/events`, {
         method: "POST",
-        credentials: "include",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(eventData),
       });
 
       const result = await response.json();
-
-      console.log("Backend response:", result);
 
       if (!response.ok || !result.success) {
         throw new Error(result.message || "Failed to create event");
