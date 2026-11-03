@@ -1,4 +1,3 @@
-
 import { NextRequest, NextResponse } from "next/server";
 
 const privateRoutes = [
@@ -12,17 +11,16 @@ export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   const isPrivateRoute = privateRoutes.some(
-    (route) =>
-      pathname === route || pathname.startsWith(`${route}/`)
+    (route) => pathname === route || pathname.startsWith(`${route}/`),
   );
 
   if (!isPrivateRoute) {
     return NextResponse.next();
   }
 
-  const sessionCookie = request.cookies.get(
-    "better-auth.session_token"
-  );
+  const sessionCookie =
+    request.cookies.get("__Secure-better-auth.session_token") ||
+    request.cookies.get("better-auth.session_token");
 
   if (!sessionCookie) {
     const loginUrl = new URL("/login", request.url);
