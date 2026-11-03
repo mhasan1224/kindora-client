@@ -2,6 +2,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 const privateRoutes = [
+  "/profile",
   "/create-event",
   "/manage-events",
   "/my-joined-events",
@@ -35,6 +36,7 @@ export function proxy(request: NextRequest) {
 
 export const config = {
   matcher: [
+    "/profile/:path*",
     "/create-event/:path*",
     "/manage-events/:path*",
     "/my-joined-events/:path*",

@@ -70,7 +70,7 @@ export default function LoginPage() {
                   alt="Kindora Logo"
                   width={100}
                   height={100}
-                  className="h-11 w-11 object-contain"
+                  className="h-11 w-11 rounded-2xl py-1.5 object-contain"
                   priority
                 />
               </div>

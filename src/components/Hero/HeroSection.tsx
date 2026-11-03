@@ -40,7 +40,7 @@ export default function HeroSection() {
             src={heroImages[currentImage]}
             alt="Kindora community volunteering"
             fill
-            priority={currentImage === 0}
+            loading="eager"
             sizes="100vw"
             className="object-cover"
           />

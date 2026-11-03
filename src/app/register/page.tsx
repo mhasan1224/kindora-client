@@ -102,7 +102,7 @@ export default function RegisterPage() {
               alt="Kindora Logo"
               width={100}
               height={100}
-              className="h-14 w-14 object-contain"
+              className="h-14 w-14 rounded-2xl py-2 object-contain"
               priority
             />
           </div>

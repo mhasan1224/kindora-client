@@ -14,6 +14,7 @@ import {
   LogIn,
   LogOut,
   Menu,
+  UserRound,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -68,6 +69,11 @@ const navLinks = [
 
 const privateLinks = [
   {
+    title: "My Profile",
+    href: "/profile",
+    icon: UserRound,
+  },
+  {
     title: "Create Event",
     href: "/create-event",
     icon: PlusCircle,
@@ -111,12 +117,12 @@ export default function Navbar({ user, onLogout }: NavbarProps) {
         {/* Logo */}
         <Link href="/" className="flex shrink-0 items-center">
           <Image
-            src="/kindora-logo.jpg"
+            src="/kindora-logo.png"
             alt="Kindora - Small Acts, Big Impact"
             width={170}
             height={65}
             priority
-            className="h-12 w-auto object-contain"
+            className="h-12 w-auto rounded-2xl py-0.5 object-contain"
           />
         </Link>
 
@@ -307,7 +313,7 @@ export default function Navbar({ user, onLogout }: NavbarProps) {
                     alt="Kindora"
                     width={140}
                     height={55}
-                    className="h-11 w-auto object-contain"
+                    className="h-11 w-auto rounded-2xl py-0.5 object-contain"
                   />
                 </SheetTitle>
               </SheetHeader>

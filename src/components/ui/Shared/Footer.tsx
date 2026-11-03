@@ -61,11 +61,11 @@ export default function Footer() {
         >
           <Link href="/" className="inline-flex items-center">
             <Image
-              src="/kindora-logo.jpg"
+              src="/kindora-logo.png"
               alt="Kindora - Small Acts, Big Impact"
               width={170}
               height={65}
-              className="h-14 w-auto object-contain"
+              className="h-14 w-auto rounded-2xl py-1 object-contain"
             />
           </Link>
 
