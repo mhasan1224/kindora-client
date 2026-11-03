@@ -16,7 +16,7 @@ export default function JWTTestPage() {
       const token = await getAccessToken();
 
       const response = await fetch(
-        "http://localhost:8000/jwt-test",
+        `${process.env.NEXT_PUBLIC_API_URL}/jwt-test`,
         {
           method: "GET",
           headers: {
