@@ -62,7 +62,10 @@ const cardVariants = {
 
 export default function FeaturesSection() {
   return (
-    <section className="bg-background px-6 py-20 sm:py-24">
+    <section
+      id="about"
+      className="scroll-mt-24 bg-background px-6 py-20 sm:py-24"
+    >
       <div className="mx-auto max-w-7xl">
         <div className="mx-auto mb-14 max-w-2xl text-center">
           <motion.p
