@@ -15,6 +15,9 @@ import {
   LogOut,
   Menu,
   UserRound,
+  Home,
+  Info,
+  Mail,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -61,9 +64,24 @@ interface NavbarProps {
 
 const navLinks = [
   {
+    title: "Home",
+    href: "/",
+    icon: Home,
+  },
+  {
     title: "Upcoming Events",
     href: "/upcoming-events",
     icon: CalendarDays,
+  },
+  {
+    title: "About Us",
+    href: "/#about",
+    icon: Info,
+  },
+  {
+    title: "Contact Us",
+    href: "/#contact",
+    icon: Mail,
   },
 ];
 
@@ -129,7 +147,7 @@ export default function Navbar({ user, onLogout }: NavbarProps) {
         {/* Desktop Navigation */}
         <nav
           aria-label="Main navigation"
-          className="hidden items-center gap-2 md:flex"
+          className="hidden items-center gap-2 lg:flex"
         >
           {navLinks.map((link) => {
             const Icon = link.icon;
@@ -153,7 +171,7 @@ export default function Navbar({ user, onLogout }: NavbarProps) {
         </nav>
 
         {/* Desktop Authentication and Theme */}
-        <div className="hidden items-center gap-3 md:flex">
+        <div className="hidden items-center gap-3 lg:flex">
           <ThemeToggle />
 
           {user ? (
@@ -285,7 +303,7 @@ export default function Navbar({ user, onLogout }: NavbarProps) {
         </div>
 
         {/* Mobile Navigation and Theme */}
-        <div className="flex items-center gap-2 md:hidden">
+        <div className="flex items-center gap-2 lg:hidden">
           <ThemeToggle />
 
           <Sheet>
