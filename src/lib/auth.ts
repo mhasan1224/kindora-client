@@ -1,4 +1,3 @@
-
 import { betterAuth } from "better-auth";
 import { mongodbAdapter } from "@better-auth/mongo-adapter";
 import clientPromise from "./mongodb";
@@ -11,6 +10,11 @@ export const auth = betterAuth({
   database: mongodbAdapter(db, {
     client,
   }),
+
+  trustedOrigins: [
+    "http://localhost:3000",
+    "https://kindora-frontend-five.vercel.app",
+  ],
 
   emailAndPassword: {
     enabled: true,
